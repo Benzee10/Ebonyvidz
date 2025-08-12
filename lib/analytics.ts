@@ -1,3 +1,4 @@
+
 import { getAllVideos, getAllVideosWithDynamic } from './videos';
 import { Video } from '../types';
 
@@ -30,39 +31,6 @@ getAllVideosWithDynamic().then(allVideos => {
   console.warn('Could not initialize view counts for dynamic videos:', error);
 });
 
-/**
- * Increments the view count for a specific video slug.
- * This simulates a user watching a video.
- * @param slug - The unique identifier for the video.
- */
-export function trackView(slug: string): void {
-  if (typeof _viewCounts[slug] === 'number') {
-    _viewCounts[slug]++;
-  } else {
-    // If for some reason a video is not in the initial list, generate a baseline count first
-    const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const baseViews = (hash % 50000) * 3 + (hash % 25000) + 10000;
-    const multiplier = (hash % 3) + 2;
-    _viewCounts[slug] = Math.floor(baseViews * multiplier) + 1;
-  }
-}
-
-/**
- * Retrieves the current view count for a specific video slug.
- * @param slug - The unique identifier for the video.
- * @returns The number of views.
- */
-export function getViews(slug: string): number {
-  if (_viewCounts[slug] === undefined) {
-    // Generate a baseline count if not initialized
-    const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const baseViews = (hash % 50000) * 3 + (hash % 25000) + 10000;
-    const multiplier = (hash % 3) + 2;
-    _viewCounts[slug] = Math.floor(baseViews * multiplier);
-  }
-  return _viewCounts[slug];
-}
-
 interface ViewData {
   count: number;
   timestamp: number;
@@ -72,7 +40,17 @@ interface TrendingViews {
   [videoId: string]: ViewData[];
 }
 
+const STORAGE_KEY = 'video_views';
 const TRENDING_STORAGE_KEY = 'video_trending_views';
+
+const getStoredViews = (): Record<string, number> => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+};
 
 const getStoredTrendingViews = (): TrendingViews => {
   try {
@@ -83,49 +61,67 @@ const getStoredTrendingViews = (): TrendingViews => {
   }
 };
 
-// This part of the code is a replacement for the existing trackView and getViews functions,
-// and also introduces new functions for trending views.
-// The original getStoredViews and STORAGE_KEY are assumed to be defined elsewhere and are used here.
-// Assuming STORAGE_KEY is defined and getStoredViews() is available in the scope.
-
-// Mock implementation for getStoredViews and STORAGE_KEY for completeness,
-// as they are referenced in the changes but not provided in the original snippet.
-const STORAGE_KEY = 'video_views';
-const getStoredViews = (): Record<string, number> => {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : {};
-  } catch {
-    return {};
-  }
-};
-
-export const trackView = (videoId: string) => {
+/**
+ * Increments the view count for a specific video slug.
+ * This simulates a user watching a video.
+ * @param slug - The unique identifier for the video.
+ */
+export function trackView(slug: string): void {
+  // Update localStorage views
   const views = getStoredViews();
-  views[videoId] = (views[videoId] || 0) + 1;
+  views[slug] = (views[slug] || 0) + 1;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(views));
+
+  // Update in-memory views for fallback
+  if (typeof _viewCounts[slug] === 'number') {
+    _viewCounts[slug]++;
+  } else {
+    // If for some reason a video is not in the initial list, generate a baseline count first
+    const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const baseViews = (hash % 50000) * 3 + (hash % 25000) + 10000;
+    const multiplier = (hash % 3) + 2;
+    _viewCounts[slug] = Math.floor(baseViews * multiplier) + 1;
+  }
 
   // Track for trending
   const trendingViews = getStoredTrendingViews();
   const now = Date.now();
 
-  if (!trendingViews[videoId]) {
-    trendingViews[videoId] = [];
+  if (!trendingViews[slug]) {
+    trendingViews[slug] = [];
   }
 
-  trendingViews[videoId].push({ count: 1, timestamp: now });
+  trendingViews[slug].push({ count: 1, timestamp: now });
 
   // Clean up old views (older than 7 days)
   const sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000);
-  trendingViews[videoId] = trendingViews[videoId].filter(view => view.timestamp > sevenDaysAgo);
+  trendingViews[slug] = trendingViews[slug].filter(view => view.timestamp > sevenDaysAgo);
 
   localStorage.setItem(TRENDING_STORAGE_KEY, JSON.stringify(trendingViews));
-};
+}
 
-export const getViews = (videoId: string): number => {
+/**
+ * Retrieves the current view count for a specific video slug.
+ * @param slug - The unique identifier for the video.
+ * @returns The number of views.
+ */
+export function getViews(slug: string): number {
+  // First try localStorage
   const views = getStoredViews();
-  return views[videoId] || 0;
-};
+  if (views[slug] !== undefined) {
+    return views[slug];
+  }
+
+  // Fallback to in-memory views
+  if (_viewCounts[slug] === undefined) {
+    // Generate a baseline count if not initialized
+    const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const baseViews = (hash % 50000) * 3 + (hash % 25000) + 10000;
+    const multiplier = (hash % 3) + 2;
+    _viewCounts[slug] = Math.floor(baseViews * multiplier);
+  }
+  return _viewCounts[slug];
+}
 
 export const getTrendingViews = (videoId: string, hours: number = 24): number => {
   const trendingViews = getStoredTrendingViews();

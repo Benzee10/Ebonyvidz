@@ -6,7 +6,7 @@ import { getAllVideosWithDynamic } from '../lib/videos';
 import { getAllTrendingViews, getViews } from '../lib/analytics';
 import VideoCard from './VideoCard';
 import VideoCardSkeleton from './VideoCardSkeleton';
-import { FireIcon, ChevronLeftIcon, ChevronRightIcon } from './Icons';
+import { FireIcon } from './Icons';
 
 interface TrendingSectionProps {
   timeframe?: 24 | 168; // 24 hours or 168 hours (1 week)
