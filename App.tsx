@@ -43,7 +43,7 @@ function App() {
 
   return (
     <HashRouter>
-      <div className="min-h-screen bg-white text-gray-900">
+      <div className="min-h-screen bg-white text-gray-900" style={{backgroundColor: '#ffffff !important'}}>
         {/* Header with red navigation styling */}
         <header className="sticky top-0 z-50 bg-red-600 border-b border-red-700 shadow-xl">
           <nav className="container mx-auto px-4 sm:px-6 lg:px-8">

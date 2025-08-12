@@ -4,12 +4,24 @@
 /* White background with red accents */
 body {
   background: #ffffff !important;
+  background-color: #ffffff !important;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* Ensure root element has white background */
 #root {
   background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+/* Force white background on all major containers */
+* {
+  --tw-bg-opacity: 1;
+}
+
+html, body, #root, .min-h-screen {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 /* Custom scrollbar styles for luxurious red theme */
