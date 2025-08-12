@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { HashRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -10,6 +9,9 @@ import AddVideoPage from './pages/AddVideoPage';
 import { FilmIcon, SearchIcon } from './components/Icons';
 import StickyWidget from './components/StickyWidget';
 import DailyPopup from './components/DailyPopup';
+// Import PWA components
+import PWAInstallButton from './components/PWAInstallButton';
+import OfflineIndicator from './components/OfflineIndicator';
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,8 +62,8 @@ function App() {
               <div className="flex items-center gap-6">
                 <SearchBar />
                 <div className="hidden md:flex items-center gap-4">
-                  <Link 
-                    to="/add" 
+                  <Link
+                    to="/add"
                     className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg hover:shadow-red-600/40 transition-all font-medium hover:from-red-500 hover:to-red-600"
                   >
                     Upload
@@ -87,7 +89,7 @@ function App() {
           </Routes>
         </main>
 
-        
+
 
         <StickyWidget />
         <DailyPopup />
