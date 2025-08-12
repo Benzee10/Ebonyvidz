@@ -92,8 +92,20 @@ export const ChevronLeftIcon: React.FC<IconProps> = ({ className = "h-6 w-6" }) 
   </svg>
 );
 
-export const ChevronRightIcon: React.FC<IconProps> = ({ className = "h-6 w-6" }) => (
+export const ChevronRightIcon: React.FC<IconProps> = ({ className = 'h-5 w-5' }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+  </svg>
+);
+
+export const FireIcon: React.FC<IconProps> = ({ className = 'h-5 w-5' }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 0c3.5 0 6.5 2.2 7.7 5.3.4 1 .6 2 .6 3 0 4.4-3.6 8-8 8s-8-3.6-8-8c0-1 .2-2 .6-3C5.5 2.2 8.5 0 12 0zm0 2c-2.6 0-4.8 1.7-5.7 4-.3.7-.4 1.4-.4 2.1 0 3.3 2.7 6 6 6s6-2.7 6-6c0-.7-.1-1.4-.4-2.1C16.8 3.7 14.6 2 12 2z"/>
+  </svg>
+);
+
+export const PauseIcon: React.FC<IconProps> = ({ className = 'h-5 w-5' }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
   </svg>
 );

@@ -5,6 +5,7 @@ import { getViews } from '../lib/analytics';
 import { Video } from '../types';
 import VideoCard from '../components/VideoCard';
 import VideoCardSkeleton from '../components/VideoCardSkeleton';
+import TrendingSection from '../components/TrendingSection';
 const HomePage: React.FC = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [filteredVideos, setFilteredVideos] = useState<Video[]>([]);
@@ -103,6 +104,9 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="max-w-7xl mx-auto">
+          {/* Trending Section */}
+          <TrendingSection />
+          
           <div className="space-y-8 sm:space-y-12">
             {loading ? (
               tags.map(tag => (

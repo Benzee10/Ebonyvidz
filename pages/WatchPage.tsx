@@ -12,6 +12,7 @@ import FakeDownloadButtons from '../components/FakeDownloadButtons';
 import QualityUpgradePrompt from '../components/QualityUpgradePrompt';
 import SocialProofNotifications from '../components/SocialProofNotifications';
 import RelatedVideosCarousel from '../components/RelatedVideosCarousel';
+import ProgressiveVideoPlayer from '../components/ProgressiveVideoPlayer';
 
 const WatchPageSkeleton = () => (
   <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-pulse">
@@ -201,20 +202,13 @@ const WatchPage: React.FC = () => {
 
           <div className="aspect-video mb-4 bg-black rounded-lg overflow-hidden shadow-2xl shadow-cyan-500/10 relative">
             {isMp4 ? (
-              <video
+              <ProgressiveVideoPlayer
                 src={video.videoUrl}
-                controls
                 poster={video.thumbnail}
+                title={video.title}
                 className="w-full h-full"
-                onLoadedMetadata={(e) => {
-                  const progress = getProgress(video.slug);
-                  if (progress && progress.currentTime > 10) {
-                    e.currentTarget.currentTime = progress.currentTime;
-                  }
-                }}
-                onTimeUpdate={(e) => {
-                  const currentTime = e.currentTarget.currentTime;
-                  const duration = e.currentTarget.duration;
+                initialTime={getProgress(video.slug)?.currentTime || 0}
+                onTimeUpdate={(currentTime, duration) => {
                   if (duration > 0) {
                     saveProgress(video.slug, currentTime, duration);
                   }
@@ -222,9 +216,7 @@ const WatchPage: React.FC = () => {
                 onEnded={() => {
                   clearProgress(video.slug);
                 }}
-              >
-                Your browser does not support the video tag.
-              </video>
+              />
             ) : (
               <iframe
                 src={video.videoUrl}

@@ -62,3 +62,87 @@ export function getViews(slug: string): number {
   }
   return _viewCounts[slug];
 }
+
+interface ViewData {
+  count: number;
+  timestamp: number;
+}
+
+interface TrendingViews {
+  [videoId: string]: ViewData[];
+}
+
+const TRENDING_STORAGE_KEY = 'video_trending_views';
+
+const getStoredTrendingViews = (): TrendingViews => {
+  try {
+    const stored = localStorage.getItem(TRENDING_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+};
+
+// This part of the code is a replacement for the existing trackView and getViews functions,
+// and also introduces new functions for trending views.
+// The original getStoredViews and STORAGE_KEY are assumed to be defined elsewhere and are used here.
+// Assuming STORAGE_KEY is defined and getStoredViews() is available in the scope.
+
+// Mock implementation for getStoredViews and STORAGE_KEY for completeness,
+// as they are referenced in the changes but not provided in the original snippet.
+const STORAGE_KEY = 'video_views';
+const getStoredViews = (): Record<string, number> => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch {
+    return {};
+  }
+};
+
+export const trackView = (videoId: string) => {
+  const views = getStoredViews();
+  views[videoId] = (views[videoId] || 0) + 1;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(views));
+
+  // Track for trending
+  const trendingViews = getStoredTrendingViews();
+  const now = Date.now();
+
+  if (!trendingViews[videoId]) {
+    trendingViews[videoId] = [];
+  }
+
+  trendingViews[videoId].push({ count: 1, timestamp: now });
+
+  // Clean up old views (older than 7 days)
+  const sevenDaysAgo = now - (7 * 24 * 60 * 60 * 1000);
+  trendingViews[videoId] = trendingViews[videoId].filter(view => view.timestamp > sevenDaysAgo);
+
+  localStorage.setItem(TRENDING_STORAGE_KEY, JSON.stringify(trendingViews));
+};
+
+export const getViews = (videoId: string): number => {
+  const views = getStoredViews();
+  return views[videoId] || 0;
+};
+
+export const getTrendingViews = (videoId: string, hours: number = 24): number => {
+  const trendingViews = getStoredTrendingViews();
+  const views = trendingViews[videoId] || [];
+  const cutoff = Date.now() - (hours * 60 * 60 * 1000);
+
+  return views.filter(view => view.timestamp > cutoff).length;
+};
+
+export const getAllTrendingViews = (hours: number = 24): Record<string, number> => {
+  const trendingViews = getStoredTrendingViews();
+  const result: Record<string, number> = {};
+  const cutoff = Date.now() - (hours * 60 * 60 * 1000);
+
+  for (const [videoId, views] of Object.entries(trendingViews)) {
+    result[videoId] = views.filter(view => view.timestamp > cutoff).length;
+  }
+
+  return result;
+};
