@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Tube site color palette
+        // Luxurious red color palette
         primary: {
           50: '#fef2f2',
           100: '#fee2e2',
@@ -38,10 +38,21 @@ export default {
           950: '#000000',
         },
         accent: {
-          orange: '#ff6b35',
-          pink: '#ff1744',
-          purple: '#7c4dff',
-          blue: '#2196f3',
+          red: {
+            50: '#fef2f2',
+            100: '#fee2e2',
+            200: '#fecaca',
+            300: '#fca5a5',
+            400: '#f87171',
+            500: '#dc2626',
+            600: '#b91c1c',
+            700: '#991b1b',
+            800: '#7f1d1d',
+            900: '#450a0a',
+          },
+          gold: '#d4af37',
+          champagne: '#f7e7ce',
+          burgundy: '#800020',
         }
       },
       backgroundColor: {

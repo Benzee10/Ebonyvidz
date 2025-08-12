@@ -48,11 +48,11 @@ function App() {
         <header className="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-xl border-b border-dark-800/50 shadow-xl">
           <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
-              <Link to="/" className="flex items-center space-x-3 text-2xl font-bold text-white hover:text-accent-orange transition-colors duration-300 group">
-                <div className="p-2 bg-gradient-to-r from-accent-orange to-accent-pink rounded-lg group-hover:shadow-lg group-hover:shadow-accent-orange/30 transition-all">
+              <Link to="/" className="flex items-center space-x-3 text-2xl font-bold text-white hover:text-red-300 transition-colors duration-300 group">
+                <div className="p-2 bg-gradient-to-r from-red-600 to-red-800 rounded-lg group-hover:shadow-lg group-hover:shadow-red-600/40 transition-all">
                   <FilmIcon className="h-6 w-6 text-white" />
                 </div>
-                <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-red-100 to-red-200 bg-clip-text text-transparent">
                   Ebony Banger
                 </span>
               </Link>
@@ -62,7 +62,7 @@ function App() {
                 <div className="hidden md:flex items-center gap-4">
                   <Link 
                     to="/add" 
-                    className="px-4 py-2 bg-gradient-to-r from-accent-orange to-accent-pink text-white rounded-lg hover:shadow-lg hover:shadow-accent-orange/30 transition-all font-medium"
+                    className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg hover:shadow-red-600/40 transition-all font-medium hover:from-red-500 hover:to-red-600"
                   >
                     Upload
                   </Link>
@@ -87,51 +87,7 @@ function App() {
           </Routes>
         </main>
 
-        {/* Footer with tube site styling */}
-        <footer className="bg-dark-950 border-t border-dark-800 mt-20">
-          <div className="container mx-auto px-4 py-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <div>
-                <h3 className="text-white font-bold mb-3">Categories</h3>
-                <ul className="space-y-2 text-gray-400">
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Popular</a></li>
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Trending</a></li>
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">New</a></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-white font-bold mb-3">Community</h3>
-                <ul className="space-y-2 text-gray-400">
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Blog</a></li>
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Forums</a></li>
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Support</a></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-white font-bold mb-3">About</h3>
-                <ul className="space-y-2 text-gray-400">
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Privacy</a></li>
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Terms</a></li>
-                  <li><a href="#" className="hover:text-accent-orange transition-colors">Contact</a></li>
-                </ul>
-              </div>
-              <div>
-                <h3 className="text-white font-bold mb-3">Follow Us</h3>
-                <div className="flex space-x-3">
-                  <a href="#" className="w-8 h-8 bg-dark-800 rounded-full flex items-center justify-center hover:bg-accent-orange transition-colors">
-                    <span className="text-sm">T</span>
-                  </a>
-                  <a href="#" className="w-8 h-8 bg-dark-800 rounded-full flex items-center justify-center hover:bg-accent-orange transition-colors">
-                    <span className="text-sm">F</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <div className="border-t border-dark-800 mt-6 pt-6 text-center text-gray-500">
-              <p>&copy; 2024 Ebony Banger. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+        
 
         <StickyWidget />
         <DailyPopup />
