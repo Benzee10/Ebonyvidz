@@ -19,40 +19,40 @@ const WatchPageSkeleton = () => (
       {/* Main Content Skeleton */}
       <div className="lg:w-3/4">
         {/* Ad Banner Skeleton */}
-        <div className="min-h-[90px] w-full bg-gray-700 rounded-lg mb-4"></div>
-        <div className="aspect-video mb-4 bg-gray-700 rounded-lg"></div>
-        <div className="h-8 w-3/4 bg-gray-700 rounded mb-4"></div>
+        <div className="min-h-[90px] w-full bg-gray-200 rounded-lg mb-4"></div>
+        <div className="aspect-video mb-4 bg-gray-200 rounded-lg"></div>
+        <div className="h-8 w-3/4 bg-gray-200 rounded mb-4"></div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mb-4">
-          <div className="h-5 w-24 bg-gray-700 rounded"></div>
-          <div className="h-5 w-20 bg-gray-700 rounded"></div>
-          <div className="h-5 w-28 bg-gray-700 rounded"></div>
+          <div className="h-5 w-24 bg-gray-200 rounded"></div>
+          <div className="h-5 w-20 bg-gray-200 rounded"></div>
+          <div className="h-5 w-28 bg-gray-200 rounded"></div>
         </div>
         <div className="flex flex-wrap gap-2 mb-6">
-          <div className="h-7 w-20 bg-gray-700 rounded-full"></div>
-          <div className="h-7 w-24 bg-gray-700 rounded-full"></div>
-          <div className="h-7 w-16 bg-gray-700 rounded-full"></div>
+          <div className="h-7 w-20 bg-gray-200 rounded-full"></div>
+          <div className="h-7 w-24 bg-gray-200 rounded-full"></div>
+          <div className="h-7 w-16 bg-gray-200 rounded-full"></div>
         </div>
-        <div className="bg-gray-800/50 p-6 rounded-lg">
-          <div className="h-6 w-40 bg-gray-700 rounded mb-4"></div>
+        <div className="bg-gray-100 p-6 rounded-lg border">
+          <div className="h-6 w-40 bg-gray-200 rounded mb-4"></div>
           <div className="space-y-3">
-            <div className="h-4 bg-gray-700 rounded"></div>
-            <div className="h-4 bg-gray-700 rounded"></div>
-            <div className="h-4 w-5/6 bg-gray-700 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 bg-gray-200 rounded"></div>
+            <div className="h-4 w-5/6 bg-gray-200 rounded"></div>
           </div>
         </div>
       </div>
 
       {/* Sidebar Skeleton */}
       <div className="lg:w-1/4">
-        <div className="h-8 w-32 mb-4 bg-gray-700 rounded"></div>
+        <div className="h-8 w-32 mb-4 bg-gray-200 rounded"></div>
         <div className="space-y-4">
           {[...Array(5)].map((_, i) => (
             <div key={i} className="flex items-start gap-4 p-3">
-              <div className="w-2/5 h-20 bg-gray-700 rounded-md"></div>
+              <div className="w-2/5 h-20 bg-gray-200 rounded-md"></div>
               <div className="w-3/5 space-y-2">
-                <div className="h-5 bg-gray-700 rounded"></div>
-                <div className="h-5 w-5/6 bg-gray-700 rounded"></div>
-                <div className="h-4 w-1/2 bg-gray-700 rounded"></div>
+                <div className="h-5 bg-gray-200 rounded"></div>
+                <div className="h-5 w-5/6 bg-gray-200 rounded"></div>
+                <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
               </div>
             </div>
           ))}
@@ -156,13 +156,13 @@ const WatchPage: React.FC = () => {
 
   const upNextItems = useMemo(() => {
     const items: JSX.Element[] = relatedVideos.map(relatedVideo => (
-      <Link to={`/video/${relatedVideo.slug}`} key={relatedVideo.slug} className="flex items-start gap-4 bg-gray-800/50 p-3 rounded-lg hover:bg-gray-700/70 transition-colors duration-200 group">
+      <Link to={`/video/${relatedVideo.slug}`} key={relatedVideo.slug} className="flex items-start gap-4 bg-gray-50 p-3 rounded-lg hover:bg-gray-100 border transition-colors duration-200 group">
         <div className="w-2/5 flex-shrink-0">
           <img src={relatedVideo.thumbnail} alt={relatedVideo.title} className="rounded-md aspect-video object-cover" />
         </div>
         <div className="w-3/5">
-          <h3 className="text-md font-semibold text-white group-hover:text-lime-300 transition-colors duration-200 line-clamp-2">{relatedVideo.title}</h3>
-          <p className="text-sm text-gray-400 line-clamp-1">{relatedVideo.category}</p>
+          <h3 className="text-md font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2">{relatedVideo.title}</h3>
+          <p className="text-sm text-gray-600 line-clamp-1">{relatedVideo.category}</p>
         </div>
       </Link>
     ));
@@ -182,7 +182,7 @@ const WatchPage: React.FC = () => {
   if (!video) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="text-white text-2xl">Video not found.</div>
+        <div className="text-gray-900 text-2xl">Video not found.</div>
       </div>
     );
   }
@@ -248,20 +248,20 @@ const WatchPage: React.FC = () => {
             <AdBanner placement="watch-bottom-banner" />
           </div>
 
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-white mb-3">{video.title}</h1>
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-gray-400 mb-4">
+          <h1 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-3">{video.title}</h1>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-gray-600 mb-4">
             <div className="flex items-center gap-2">
               <FolderIcon className="h-5 w-5" />
               <span>{video.category}</span>
             </div>
-            <span className="text-gray-600 hidden sm:inline">•</span>
+            <span className="text-gray-400 hidden sm:inline">•</span>
             <div className="flex items-center gap-2">
               <ClockIcon className="h-5 w-5" />
               <span>{video.duration}</span>
             </div>
             {viewCount !== null && (
               <>
-                <span className="text-gray-600 hidden sm:inline">•</span>
+                <span className="text-gray-400 hidden sm:inline">•</span>
                 <div className="flex items-center gap-2">
                   <EyeIcon className="h-5 w-5" />
                   <span>{viewCount.toLocaleString()} views</span>
@@ -276,16 +276,16 @@ const WatchPage: React.FC = () => {
               </Link>
             ))}
           </div>
-          <div className="bg-gray-800/50 p-6 rounded-lg">
-            <h2 className="text-xl font-bold text-white mb-2">Description</h2>
-            <p className="text-gray-300 whitespace-pre-wrap leading-relaxed">{video.description}</p>
+          <div className="bg-gray-50 p-6 rounded-lg border">
+            <h2 className="text-xl font-bold text-gray-900 mb-2">Description</h2>
+            <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{video.description}</p>
           </div>
           
           {/* Premium Access CTA */}
-          <div className="bg-gradient-to-r from-purple-900/30 to-pink-900/30 p-6 rounded-lg border border-purple-500/30 mt-6">
+          <div className="bg-gradient-to-r from-red-50 to-pink-50 p-6 rounded-lg border border-red-200 mt-6">
             <div className="text-center">
-              <h3 className="text-2xl font-bold text-white mb-2">Want More Premium Content?</h3>
-              <p className="text-gray-300 mb-4">Unlock exclusive videos and premium features</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Want More Premium Content?</h3>
+              <p className="text-gray-700 mb-4">Unlock exclusive videos and premium features</p>
               <SmartCTAButton text="Get VIP Access Now" variant="premium" size="lg" />
             </div>
           </div>
@@ -293,7 +293,7 @@ const WatchPage: React.FC = () => {
 
         {/* Sidebar */}
         <div className="lg:w-1/4">
-          <h2 className="text-2xl font-bold text-white mb-4 border-l-4 border-lime-400 pl-4">Up Next</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4 border-l-4 border-red-500 pl-4">Up Next</h2>
           <div className="space-y-4">
             {upNextItems.slice(0, 8)}
           </div>
