@@ -31,8 +31,8 @@ const VideoCard: React.FC<VideoCardProps> = ({ video, views }) => {
         </span>
       </div>
       <div className="flex flex-col">
-        <h3 className="text-lg font-semibold text-white group-hover:text-cyan-400 transition-colors duration-200 line-clamp-2">{video.title}</h3>
-        <div className="flex items-center text-sm text-gray-400 mt-1 gap-2">
+        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2">{video.title}</h3>
+        <div className="flex items-center text-sm text-gray-600 mt-1 gap-2">
             <EyeIcon className="w-4 h-4" />
             <span>{views.toLocaleString()} views</span>
         </div>
