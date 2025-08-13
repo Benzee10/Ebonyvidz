@@ -98,8 +98,6 @@ function App() {
           </Routes>
         </main>
 
-
-
         <StickyWidget />
         <DailyPopup />
       </div>
