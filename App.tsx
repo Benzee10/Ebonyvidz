@@ -9,6 +9,8 @@ import AddVideoPage from './pages/AddVideoPage';
 import { FilmIcon, SearchIcon } from './components/Icons';
 import StickyWidget from './components/StickyWidget';
 import DailyPopup from './components/DailyPopup';
+import ThemeToggle from './components/ThemeToggle';
+import { ThemeProvider } from './contexts/ThemeContext';
 // Import PWA components
 import PWAInstallButton from './components/PWAInstallButton';
 import OfflineIndicator from './components/OfflineIndicator';
@@ -34,7 +36,7 @@ function SearchBar() {
         placeholder="Search videos..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
-        className="w-48 sm:w-64 bg-white border border-red-300 rounded-lg py-2.5 pl-10 pr-4 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
+        className="w-48 sm:w-64 bg-white dark:bg-gray-800 border border-red-300 dark:border-gray-600 rounded-lg py-2.5 pl-10 pr-4 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all"
         aria-label="Search videos"
       />
     </form>
@@ -44,10 +46,11 @@ function SearchBar() {
 function App() {
 
   return (
-    <HashRouter>
-      <div className="min-h-screen bg-white text-gray-900" style={{backgroundColor: '#ffffff !important'}}>
-        {/* Header with red navigation styling */}
-        <header className="sticky top-0 z-50 bg-red-600 border-b border-red-700 shadow-xl">
+    <ThemeProvider>
+      <HashRouter>
+        <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200">
+          {/* Header with red navigation styling */}
+          <header className="sticky top-0 z-50 bg-red-600 dark:bg-red-700 border-b border-red-700 dark:border-red-800 shadow-xl">
           <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
               <Link to="/" className="flex items-center space-x-2 text-lg font-bold text-white hover:text-red-300 transition-colors duration-300 group">
@@ -65,13 +68,14 @@ function App() {
               <div className="flex items-center gap-6">
                 <SearchBar />
                 <div className="hidden md:flex items-center gap-4">
+                  <ThemeToggle />
                   <Link
                     to="/add"
                     className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg hover:shadow-red-600/40 transition-all font-medium hover:from-red-500 hover:to-red-600"
                   >
                     Upload
                   </Link>
-                  <button className="px-4 py-2 bg-white text-red-600 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all font-medium border border-red-300">
+                  <button className="px-4 py-2 bg-white dark:bg-gray-800 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-50 dark:hover:bg-gray-700 hover:text-red-700 dark:hover:text-red-300 transition-all font-medium border border-red-300 dark:border-gray-600">
                     Sign In
                   </button>
                 </div>
@@ -80,8 +84,8 @@ function App() {
           </nav>
         </header>
 
-        {/* Main content with white background */}
-        <main className="bg-white">
+        {/* Main content with theme-aware background */}
+        <main className="bg-white dark:bg-gray-900 transition-colors duration-200">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/video/:slug" element={<WatchPage />} />
@@ -95,9 +99,10 @@ function App() {
 
 
         <StickyWidget />
-        <DailyPopup />
-      </div>
-    </HashRouter>
+          <DailyPopup />
+        </div>
+      </HashRouter>
+    </ThemeProvider>
   );
 }
 
