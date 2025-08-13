@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { getTheme, applyTheme } from './lib/theme';
 import HomePage from './pages/HomePage';
 import WatchPage from './pages/WatchPage';
 import AddVideoPage from './pages/AddVideoPage';
@@ -43,6 +44,11 @@ function SearchBar() {
 }
 
 function App() {
+  useEffect(() => {
+    // Initialize theme on app load
+    const theme = getTheme();
+    applyTheme(theme);
+  }, []);
 
   return (
     <HashRouter>
