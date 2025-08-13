@@ -118,7 +118,7 @@ const HomePage: React.FC = () => {
             ) : (
               tags.map(tag => (
                 <section key={tag}>
-                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 border-l-4 border-red-600 pl-4 transition-colors">{tag}</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 border-l-4 border-red-600 pl-4 transition-colors">{tag}</h2>
                   <div className="flex overflow-x-auto space-x-4 sm:space-x-6 pb-4 -mx-4 px-4 horizontal-scroll">
                     {groupedVideos[tag].map(video => (
                       <div className="flex-shrink-0 w-64 sm:w-72 lg:w-80" key={video.slug}>

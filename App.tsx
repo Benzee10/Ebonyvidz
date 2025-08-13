@@ -46,6 +46,8 @@ function App() {
     // Force dark mode permanently
     document.documentElement.classList.add('dark');
     document.documentElement.classList.remove('light');
+    document.body.classList.add('dark');
+    document.body.classList.remove('light');
   }, []);
 
   return (
