@@ -21,7 +21,7 @@ const SystemIcon: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 const ThemeToggle: React.FC = () => {
-  const [currentTheme, setCurrentTheme] = useState<Theme>('dark');
+  const [currentTheme, setCurrentTheme] = useState<Theme>(() => getTheme());
 
   useEffect(() => {
     const theme = getTheme();
@@ -58,9 +58,9 @@ const ThemeToggle: React.FC = () => {
 
   return (
     <div className="relative group">
-      <button className="flex items-center space-x-2 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all">
+      <button className="flex items-center space-x-1 md:space-x-2 px-2 md:px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all">
         {getIcon(currentTheme)}
-        <span className="text-sm font-medium">{getLabel(currentTheme)}</span>
+        <span className="hidden sm:inline text-sm font-medium">{getLabel(currentTheme)}</span>
         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
