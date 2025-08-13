@@ -9,6 +9,7 @@ import AddVideoPage from './pages/AddVideoPage';
 import { FilmIcon, SearchIcon } from './components/Icons';
 import StickyWidget from './components/StickyWidget';
 import DailyPopup from './components/DailyPopup';
+import ThemeToggle from './components/ThemeToggle';
 // Import PWA components
 import PWAInstallButton from './components/PWAInstallButton';
 import OfflineIndicator from './components/OfflineIndicator';
@@ -45,7 +46,7 @@ function App() {
 
   return (
     <HashRouter>
-      <div className="min-h-screen bg-white text-gray-900" style={{backgroundColor: '#ffffff !important'}}>
+      <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors">
         {/* Header with red navigation styling */}
         <header className="sticky top-0 z-50 bg-red-600 border-b border-red-700 shadow-xl">
           <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,6 +66,7 @@ function App() {
               <div className="flex items-center gap-6">
                 <SearchBar />
                 <div className="hidden md:flex items-center gap-4">
+                  <ThemeToggle />
                   <Link
                     to="/add"
                     className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg hover:shadow-red-600/40 transition-all font-medium hover:from-red-500 hover:to-red-600"
@@ -80,8 +82,8 @@ function App() {
           </nav>
         </header>
 
-        {/* Main content with white background */}
-        <main className="bg-white">
+        {/* Main content with responsive background */}
+        <main className="bg-white dark:bg-gray-900 transition-colors">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/video/:slug" element={<WatchPage />} />
