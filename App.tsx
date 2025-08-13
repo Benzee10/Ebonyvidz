@@ -79,7 +79,6 @@ function App() {
                     <button className="px-4 py-2 bg-white text-red-600 rounded-lg hover:bg-red-50 hover:text-red-700 transition-all font-medium border border-red-300">
                       Sign In
                     </button>
-                  </div>
                 </div>
               </div>
             </div>
