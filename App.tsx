@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { getTheme, applyTheme } from './lib/theme';
 import HomePage from './pages/HomePage';
 import WatchPage from './pages/WatchPage';
 import AddVideoPage from './pages/AddVideoPage';
@@ -10,7 +9,6 @@ import AddVideoPage from './pages/AddVideoPage';
 import { FilmIcon, SearchIcon } from './components/Icons';
 import StickyWidget from './components/StickyWidget';
 import DailyPopup from './components/DailyPopup';
-import ThemeToggle from './components/ThemeToggle';
 // Import PWA components
 import PWAInstallButton from './components/PWAInstallButton';
 import OfflineIndicator from './components/OfflineIndicator';
@@ -45,21 +43,9 @@ function SearchBar() {
 
 function App() {
   useEffect(() => {
-    // Initialize theme on app load
-    const theme = getTheme();
-    applyTheme(theme);
-
-    // Listen for system theme changes
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => {
-      const currentTheme = getTheme();
-      if (currentTheme === 'system') {
-        applyTheme('system');
-      }
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    // Force dark mode permanently
+    document.documentElement.classList.add('dark');
+    document.documentElement.classList.remove('light');
   }, []);
 
   return (
@@ -83,9 +69,7 @@ function App() {
 
               <div className="flex items-center gap-6">
                 <SearchBar />
-                <div className="flex items-center gap-4">
-                  <ThemeToggle />
-                  <div className="hidden md:flex items-center gap-4">
+                <div className="hidden md:flex items-center gap-4">
                     <Link
                       to="/add"
                       className="px-4 py-2 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg hover:shadow-red-600/40 transition-all font-medium hover:from-red-500 hover:to-red-600"
