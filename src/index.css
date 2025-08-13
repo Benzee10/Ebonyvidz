@@ -130,6 +130,23 @@ a:hover {
   }
 }
 
+/* Force all backgrounds to dark */
+.bg-white {
+  background: #1f2937 !important;
+}
+
+.bg-gray-50 {
+  background: #111827 !important;
+}
+
+.bg-gray-100 {
+  background: #1f2937 !important;
+}
+
+.bg-gray-200 {
+  background: #374151 !important;
+}
+
 /* Video card hover effects - force dark mode styles */
 .video-card {
   transition: all 0.3s ease;
@@ -152,6 +169,26 @@ a:hover {
 
 .video-card h3, .video-card p, .video-card span {
   color: #f3f4f6 !important;
+}
+
+/* Force all content areas to dark */
+div, section, article, main, aside, nav, header, footer {
+  background-color: inherit;
+}
+
+/* Override any remaining white backgrounds */
+* {
+  background-color: inherit;
+}
+
+/* Specific overrides for common white backgrounds */
+.rounded-lg, .rounded, .shadow, .border {
+  background: #1f2937 !important;
+}
+
+/* Skeleton loading should be dark */
+.animate-pulse {
+  background: #374151 !important;
 }
 
 /* Gradient text effect */
