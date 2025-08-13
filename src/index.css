@@ -1,25 +1,19 @@
 
 @import "tailwindcss";
 
-/* White background with red accents */
+/* Theme-aware background */
 body {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-/* Ensure root element has white background */
-#root {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
+/* Remove forced white backgrounds to allow dark mode */
+html.dark body {
+  background: #111827 !important;
+  background-color: #111827 !important;
 }
 
-/* Force white background on all major containers */
-* {
-  --tw-bg-opacity: 1;
-}
-
-html, body, #root, .min-h-screen {
+html.light body,
+html:not(.dark) body {
   background: #ffffff !important;
   background-color: #ffffff !important;
 }
@@ -31,7 +25,10 @@ html, body, #root, .min-h-screen {
 
 .horizontal-scroll::-webkit-scrollbar-track {
   background: #f5f5f5;
-  border-radius: 3px;
+}
+
+.dark .horizontal-scroll::-webkit-scrollbar-track {
+  background: #374151;
 }
 
 .horizontal-scroll::-webkit-scrollbar-thumb {
@@ -50,6 +47,10 @@ html, body, #root, .min-h-screen {
 
 ::-webkit-scrollbar-track {
   background: #f5f5f5;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #374151;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -99,11 +100,20 @@ html, body, #root, .min-h-screen {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.dark .video-card {
+  background: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 .video-card:hover {
   transform: translateY(-4px);
-  background: #ffffff;
   border-color: #dc2626;
   box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
+}
+
+.dark .video-card:hover {
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.25);
 }
 
 /* Gradient text effect */
@@ -142,6 +152,12 @@ html, body, #root, .min-h-screen {
 
 /* Loading animations */
 .loading-shimmer {
+  background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.dark .loading-shimmer {
   background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
