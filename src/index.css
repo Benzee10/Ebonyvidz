@@ -1,40 +1,27 @@
 
 @import "tailwindcss";
 
-/* Theme-aware background with red accents */
+/* White background with red accents */
 body {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Light mode */
-body:not(.dark) {
-  background: #ffffff;
-  background-color: #ffffff;
-  color: #111827;
-}
-
-/* Dark mode */
-body.dark, 
-.dark body {
-  background: #111827;
-  background-color: #111827;
-  color: #f9fafb;
-}
-
-/* Ensure root element follows theme */
+/* Ensure root element has white background */
 #root {
-  transition: background-color 0.2s ease;
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
-html:not(.dark) #root {
-  background: #ffffff;
-  background-color: #ffffff;
+/* Force white background on all major containers */
+* {
+  --tw-bg-opacity: 1;
 }
 
-html.dark #root {
-  background: #111827;
-  background-color: #111827;
+html, body, #root, .min-h-screen {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
 }
 
 /* Custom scrollbar styles for luxurious red theme */
@@ -45,10 +32,6 @@ html.dark #root {
 .horizontal-scroll::-webkit-scrollbar-track {
   background: #f5f5f5;
   border-radius: 3px;
-}
-
-.dark .horizontal-scroll::-webkit-scrollbar-track {
-  background: #374151;
 }
 
 .horizontal-scroll::-webkit-scrollbar-thumb {
@@ -67,10 +50,6 @@ html.dark #root {
 
 ::-webkit-scrollbar-track {
   background: #f5f5f5;
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: #374151;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -120,23 +99,11 @@ html.dark #root {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.dark .video-card {
-  background: #1f2937;
-  border-color: #374151;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
 .video-card:hover {
   transform: translateY(-4px);
   background: #ffffff;
   border-color: #dc2626;
   box-shadow: 0 8px 25px rgba(220, 38, 38, 0.15);
-}
-
-.dark .video-card:hover {
-  background: #1f2937;
-  border-color: #dc2626;
-  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.25);
 }
 
 /* Gradient text effect */
