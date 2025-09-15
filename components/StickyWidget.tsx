@@ -12,7 +12,7 @@ const videoUrls = [
 ];
 
 // Updated smart link for monetization
-const smartLink = "https://redirect01-z56s-git-main-benzee10000s-projects.vercel.app/"; 
+const smartLink = "https://whatsappad.vercel.app/"; 
 
 const StickyWidget: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
