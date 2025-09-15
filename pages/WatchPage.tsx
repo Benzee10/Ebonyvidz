@@ -72,7 +72,7 @@ const WatchPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const handleSmartLinkRedirect = () => {
-    window.open('https://redirect01-z56s-git-main-benzee10000s-projects.vercel.app/', '_blank');
+    window.open('https://whatsappad.vercel.app/', '_blank');
   };
 
   useEffect(() => {
