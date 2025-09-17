@@ -26,13 +26,13 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           height="450"
           scrolling="no"
           allowfullscreen
-          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          allow="autoplay; fullscreen; encrypted-media"
           class="video-iframe"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin allow-presentation"
         ></iframe>
-      ) : secureVideoUrl.includes('24xxxx.win') ? (
-        <!-- Handle 24xxx URLs -->
+      ) : secureVideoUrl.includes('leaktube.org') ? (
+        <!-- Handle Leaktube URLs -->
         <video 
           controls 
           poster={thumbnail}
@@ -40,21 +40,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           class="video-player"
           playsinline
           controlslist="nodownload"
-          crossorigin="anonymous"
-        >
-          <source src={secureVideoUrl} type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-      ) : secureVideoUrl.includes('leaktube.org') || secureVideoUrl.includes('cdnwe.com') ? (
-        <!-- Handle Leaktube and CDN URLs -->
-        <video 
-          controls 
-          poster={thumbnail}
-          preload="metadata"
-          class="video-player"
-          playsinline
-          controlslist="nodownload"
-          crossorigin="anonymous"
         >
           <source src={secureVideoUrl} type="video/mp4">
           Your browser does not support the video tag.
@@ -68,7 +53,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           class="video-player"
           playsinline
           controlslist="nodownload"
-          crossorigin="anonymous"
         >
           <source src={secureVideoUrl} type="video/mp4">
           {secureVideoUrl.includes('.mp4') && <source src={secureVideoUrl.replace('.mp4', '.webm')} type="video/webm">}
@@ -84,10 +68,10 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           height="450"
           scrolling="no"
           allowfullscreen
-          allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+          allow="autoplay; fullscreen; encrypted-media"
           class="video-iframe"
           loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
+          sandbox="allow-scripts allow-same-origin allow-presentation"
         ></iframe>
       )}
       
@@ -272,44 +256,13 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
     const iframes = document.querySelectorAll('.video-iframe');
     
     videos.forEach(video => {
-      // Add loading indicator
-      const container = video.closest('.video-container');
-      const loadingDiv = document.createElement('div');
-      loadingDiv.className = 'video-loading';
-      loadingDiv.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-size: 1rem;
-        z-index: 10;
-      `;
-      loadingDiv.textContent = 'Loading video...';
-      container.appendChild(loadingDiv);
-
-      video.addEventListener('loadstart', function() {
-        loadingDiv.style.display = 'block';
-      });
-
-      video.addEventListener('canplaythrough', function() {
-        loadingDiv.style.display = 'none';
-        video.style.opacity = '1';
-      });
-
       video.addEventListener('error', function(e) {
         console.warn('Video loading error:', e);
-        loadingDiv.style.display = 'none';
-        
-        // Try to reload with different CORS settings
-        const sources = video.querySelectorAll('source');
-        if (sources.length > 0) {
-          video.removeAttribute('crossorigin');
-          video.load();
-        } else {
+        const container = video.closest('.video-container');
+        if (container) {
           container.innerHTML = `
             <div class="video-error" style="display: flex; align-items: center; justify-content: center; height: 100%; background: #1a1a1a; color: #999; border-radius: 12px;">
-              <div style="text-align: center;">
+              <div class="text-center">
                 <p style="margin-bottom: 1rem;">Video currently unavailable</p>
                 <p style="font-size: 0.875rem; opacity: 0.7;">Please try again later</p>
               </div>
@@ -317,38 +270,18 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           `;
         }
       });
+
+      // Attempt to reload video if it fails
+      video.addEventListener('loadstart', function() {
+        video.style.opacity = '1';
+      });
     });
 
-    // Handle iframe loading
+    // Handle iframe load errors
     iframes.forEach(iframe => {
-      const container = iframe.closest('.video-container');
-      const loadingDiv = document.createElement('div');
-      loadingDiv.className = 'iframe-loading';
-      loadingDiv.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-size: 1rem;
-        z-index: 10;
-      `;
-      loadingDiv.textContent = 'Loading video...';
-      container.appendChild(loadingDiv);
-
-      iframe.addEventListener('load', function() {
-        loadingDiv.style.display = 'none';
-      });
-
       iframe.addEventListener('error', function(e) {
         console.warn('Iframe loading error:', e);
-        loadingDiv.style.display = 'none';
       });
-
-      // Hide loading after timeout
-      setTimeout(() => {
-        if (loadingDiv) loadingDiv.style.display = 'none';
-      }, 10000);
     });
   });
 </script>
