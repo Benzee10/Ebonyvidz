@@ -23,9 +23,11 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
           height="450"
           scrolling="no"
           allowfullscreen
+          allow="autoplay; fullscreen"
           class="video-iframe"
+          loading="lazy"
         ></iframe>
-      ) : (
+      ) : videoUrl.includes('.mp4') || videoUrl.includes('.webm') || videoUrl.includes('.ogg') ? (
         <!-- Handle direct video URLs -->
         <video 
           controls 
@@ -33,12 +35,27 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
           preload="metadata"
           class="video-player"
           crossorigin="anonymous"
+          playsinline
+          controlslist="nodownload"
         >
           <source src={videoUrl} type="video/mp4">
-          <source src={videoUrl} type="video/webm">
-          <source src={videoUrl} type="video/ogg">
+          <source src={videoUrl.replace('.mp4', '.webm')} type="video/webm">
+          <source src={videoUrl.replace('.mp4', '.ogg')} type="video/ogg">
           Your browser does not support the video tag.
         </video>
+      ) : (
+        <!-- Fallback for other embed URLs -->
+        <iframe
+          src={videoUrl}
+          frameborder="0"
+          width="100%"
+          height="450"
+          scrolling="no"
+          allowfullscreen
+          allow="autoplay; fullscreen"
+          class="video-iframe"
+          loading="lazy"
+        ></iframe>
       )}
       
       {(title || duration) && (
@@ -57,7 +74,8 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     max-width: 900px;
     width: 100%;
     position: relative;
-    z-index: 10;
+    z-index: 100;
+    isolation: isolate;
   }
 
   .video-container {
@@ -68,6 +86,7 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     background: #000;
     aspect-ratio: 16/9;
+    z-index: 100;
   }
 
   .video-player {
@@ -77,6 +96,7 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     border-radius: 12px;
     object-fit: contain;
     background: #000;
+    z-index: 100;
   }
 
   .video-iframe {
@@ -84,6 +104,8 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     height: 100%;
     border: none;
     border-radius: 12px;
+    background: #000;
+    z-index: 100;
   }
 
   .video-info-overlay {
@@ -97,7 +119,7 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     color: white;
     font-size: 0.875rem;
     pointer-events: none;
-    z-index: 20;
+    z-index: 200;
   }
 
   .video-title {
@@ -139,6 +161,16 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
 
   .video-player::-webkit-media-controls-panel {
     background-color: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Ensure no overlays interfere with video */
+  .video-player-wrapper .banner-ad,
+  .video-player-wrapper .cta-overlay,
+  .video-section .banner-ad,
+  .video-section .cta-overlay {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
   }
 
   /* Responsive design */

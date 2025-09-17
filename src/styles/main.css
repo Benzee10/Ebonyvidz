@@ -75,42 +75,63 @@
 /* Video player protection */
 .video-container {
     position: relative;
-    z-index: 10;
+    z-index: 100;
     isolation: isolate;
 }
 
 .video-container video,
 .video-container iframe {
     position: relative;
-    z-index: 10;
+    z-index: 100;
     background: #000;
 }
 
 /* Prevent ad overlays on video players */
 .video-player-wrapper {
     position: relative;
-    z-index: 100;
+    z-index: 150;
     isolation: isolate;
 }
 
 .video-player-wrapper * {
     pointer-events: auto !important;
+    z-index: inherit;
 }
 
 .video-player-wrapper .banner-ad,
 .video-player-wrapper .cta-overlay,
 .video-section .banner-ad,
-.video-section .cta-overlay {
+.video-section .cta-overlay,
+.video-container .banner-ad,
+.video-container .cta-overlay {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
+    z-index: -1 !important;
 }
 
 /* Ensure video section has proper stacking */
 .video-section {
     position: relative;
-    z-index: 100;
+    z-index: 150;
     isolation: isolate;
+    clear: both;
+}
+
+/* Additional video fixes */
+.video-section iframe,
+.video-section video {
+    max-width: 100%;
+    height: auto;
+    min-height: 300px;
+}
+
+/* Prevent any overlays on video content */
+.video-section::before,
+.video-section::after,
+.video-player-wrapper::before,
+.video-player-wrapper::after {
+    display: none !important;
 }
 
 /* Video thumbnail styling */
