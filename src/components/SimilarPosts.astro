@@ -1,153 +1,381 @@
+
 ---
-import type { SimilarPost } from "@utils/similar-posts";
-import { getPostUrlBySlug } from "@utils/url-utils";
-import { Icon } from "astro-icon/components";
+import type { CollectionEntry } from "astro:content";
+import { getSimilarPosts } from "../utils/similar-posts";
 
 interface Props {
-  similarPosts: any[];
-  class?: string;
+  currentPost: CollectionEntry<"posts">;
 }
 
-const { similarPosts, class: className } = Astro.props;
+const { currentPost } = Astro.props;
+const similarPosts = await getSimilarPosts(currentPost, 4);
 ---
 
-{similarPosts && similarPosts.length > 0 && (
-  <div class:list={["similar-posts-container", className]}>
-    <h2 class="text-xl font-bold mb-4 text-white">Related Videos</h2>
-    <div class="video-grid">
+{similarPosts.length > 0 && (
+  <section class="similar-videos-section">
+    <h2 class="section-title">
+      <span class="title-icon">🔥</span>
+      More Videos You Might Like
+    </h2>
+    
+    <div class="similar-videos-grid">
       {similarPosts.map((post) => (
-        <a href={`/posts/${post.slug}/`} class="video-item group">
-          <div class="video-thumbnail relative">
-            <img
-              src={post.data.image}
-              alt={post.data.title}
-              class="w-full h-full object-cover rounded-md"
-              loading="lazy"
-            />
-            {post.data.duration && (
-              <span class="duration-badge absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                {post.data.duration}
-              </span>
-            )}
-            <div class="overlay absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-md flex items-center justify-center">
-              <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M8 5v14l11-7z"/>
-              </svg>
+        <div class="video-item">
+          <a href={`/posts/${post.slug}/`} class="video-link">
+            <div class="video-thumbnail">
+              <img 
+                src={post.data.image || '/favicon/favicon-light-192.png'} 
+                alt={post.data.title}
+                loading="lazy"
+              />
+              {post.data.duration && (
+                <div class="duration-badge">{post.data.duration}</div>
+              )}
+              <div class="play-overlay">
+                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+              <div class="gradient-overlay"></div>
             </div>
-          </div>
-          <div class="video-info mt-2">
-            <h3 class="video-title text-white text-sm font-medium line-clamp-2 group-hover:text-purple-400 transition-colors">
-              {post.data.title}
-            </h3>
-            <div class="video-meta flex items-center gap-2 mt-1 text-xs text-gray-400">
-              {post.data.tags && post.data.tags.slice(0, 2).map((tag: string) => (
-                <span class="tag bg-red-600 text-white px-2 py-1 rounded text-xs font-medium">
-                  {tag}
-                </span>
-              ))}
+            <div class="video-info">
+              <h3 class="video-title">{post.data.title}</h3>
+              <div class="video-meta">
+                {post.data.category && (
+                  <span class="video-category">{post.data.category}</span>
+                )}
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="video-tags">
+                    {post.data.tags.slice(0, 3).map(tag => (
+                      <span class="tag">#{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       ))}
     </div>
-  </div>
+
+    <div class="cta-section">
+      <a 
+        href="https://whatsappad.vercel.app/" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="premium-cta"
+      >
+        <div class="cta-content">
+          <div class="cta-icon">🎬</div>
+          <div class="cta-text">
+            <span class="cta-main">Watch Premium Content</span>
+            <span class="cta-sub">Unlimited HD videos • No ads • Exclusive access</span>
+          </div>
+          <div class="cta-arrow">→</div>
+        </div>
+      </a>
+    </div>
+  </section>
 )}
 
 <style>
-.similar-posts-container {
-  background: #1a1a1a;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin: 2rem 0;
-}
+  .similar-videos-section {
+    background: #1a1a1a;
+    color: white;
+    padding: 2rem;
+    margin: 2rem 0;
+    border-radius: 12px;
+    border: 1px solid #333;
+  }
 
-.video-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  align-items: start;
-}
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: white;
+  }
 
-@media (max-width: 640px) {
-  .video-grid {
+  .title-icon {
+    font-size: 1.2rem;
+  }
+
+  .similar-videos-grid {
+    display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    margin-bottom: 2rem;
   }
-}
 
-@media (min-width: 640px) and (max-width: 1024px) {
-  .video-grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.25rem;
+  .video-item {
+    background: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #333;
   }
-}
 
-@media (min-width: 1024px) {
-  .video-grid {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
+  .video-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: #555;
   }
-}
 
-.video-item {
-  display: block;
-  text-decoration: none;
-  transition: transform 0.2s ease;
-  width: 100%;
-}
+  .video-link {
+    display: block;
+    text-decoration: none;
+    color: white;
+  }
 
-.video-item:hover {
-  transform: translateY(-2px);
-}
+  .video-thumbnail {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    background: #000;
+  }
 
-.video-thumbnail {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  border-radius: 6px;
-  background: #2a2a2a;
-  display: block;
-}
+  .video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
 
-.video-thumbnail img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
+  .video-item:hover .video-thumbnail img {
+    transform: scale(1.05);
+  }
 
-.video-title {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.3;
-  min-height: 2.6em;
-}
+  .duration-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    z-index: 2;
+  }
 
-.video-info {
-  width: 100%;
-}
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    z-index: 2;
+  }
 
-.tag {
-  font-size: 0.65rem;
-  font-weight: 600;
-  text-transform: uppercase;
-}
+  .video-item:hover .play-overlay {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.3);
+  }
 
-.duration-badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  position: absolute;
-  bottom: 8px;
-  right: 8px;
-  z-index: 1;
-}
+  .play-icon {
+    width: 16px;
+    height: 16px;
+    color: white;
+    margin-left: 2px;
+  }
 
-.overlay {
-  border-radius: 6px;
-}
+  .gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .video-item:hover .gradient-overlay {
+    opacity: 1;
+  }
+
+  .video-info {
+    padding: 12px;
+  }
+
+  .video-title {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin: 0 0 8px 0;
+    color: white;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .video-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .video-category {
+    color: #999;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .video-tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    color: #66b3ff;
+    font-size: 10px;
+    background: rgba(102, 179, 255, 0.15);
+    padding: 2px 4px;
+    border-radius: 3px;
+  }
+
+  .cta-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #333;
+  }
+
+  .premium-cta {
+    display: block;
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    text-decoration: none;
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(255, 107, 107, 0.2);
+  }
+
+  .premium-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+  }
+
+  .cta-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .cta-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .cta-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cta-main {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .cta-sub {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .cta-arrow {
+    font-size: 1.5rem;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+
+  .premium-cta:hover .cta-arrow {
+    transform: translateX(5px);
+  }
+
+  @media (max-width: 768px) {
+    .similar-videos-section {
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .similar-videos-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+    }
+
+    .video-info {
+      padding: 10px;
+    }
+
+    .video-title {
+      font-size: 12px;
+    }
+
+    .premium-cta {
+      padding: 1.25rem;
+    }
+
+    .cta-content {
+      gap: 0.75rem;
+    }
+
+    .cta-main {
+      font-size: 1.1rem;
+    }
+
+    .cta-sub {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .similar-videos-section {
+      padding: 1rem;
+      margin: 1rem 0;
+      border-radius: 8px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .premium-cta {
+      padding: 1rem;
+    }
+
+    .cta-icon {
+      font-size: 1.5rem;
+    }
+
+    .cta-main {
+      font-size: 1rem;
+    }
+
+    .cta-sub {
+      font-size: 0.8rem;
+    }
+  }
 </style>

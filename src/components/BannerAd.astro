@@ -9,29 +9,44 @@ export interface Props {
 const { position = "general", class: className = "", imageUrl } = Astro.props;
 ---
 
-<div class:list={["banner-ad-container w-full flex justify-center my-6", className]}>
+<div class:list={["video-banner-container w-full flex justify-center my-6", className]}>
   <a 
     href="https://whatsappad.vercel.app/" 
     target="_blank" 
     rel="noopener noreferrer"
-    class="banner-ad-link block w-full max-w-4xl transition-transform hover:scale-[1.02] active:scale-[0.98]"
-    aria-label={`Banner Advertisement - ${position}`}
+    class="video-banner-link"
+    aria-label={`Premium Video Access - ${position}`}
   >
     {imageUrl ? (
-      <div class="banner-ad w-full h-40 md:h-48 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 relative">
+      <div class="video-banner-image">
         <img 
           src={imageUrl} 
-          alt="Advertisement" 
-          class="w-full h-full object-cover"
+          alt="Premium Video Advertisement" 
+          class="banner-img"
           loading="lazy"
         />
-        <div class="absolute inset-0 bg-black/10 hover:bg-black/5 transition-all duration-300"></div>
+        <div class="video-overlay">
+          <div class="play-button">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+          <div class="video-text">
+            <span class="video-title">🎬 Premium Videos Available</span>
+            <span class="video-subtitle">Watch exclusive HD content now</span>
+          </div>
+        </div>
+        <div class="gradient-overlay"></div>
       </div>
     ) : (
-      <div class="banner-ad w-full h-32 md:h-40 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-xl md:text-2xl shadow-lg hover:shadow-xl transition-all duration-300">
-        <div class="text-center px-4">
-          <div class="mb-2">🚀 Premium Content</div>
-          <div class="text-sm md:text-base opacity-90">Click to Explore More</div>
+      <div class="video-banner-default">
+        <div class="video-content">
+          <div class="video-icon">🎥</div>
+          <div class="video-info">
+            <h3>Unlock Premium Videos</h3>
+            <p>HD Quality • Exclusive Content • Instant Access</p>
+          </div>
+          <div class="play-arrow">▶</div>
         </div>
       </div>
     )}
@@ -39,17 +54,119 @@ const { position = "general", class: className = "", imageUrl } = Astro.props;
 </div>
 
 <style>
-  .banner-ad-container {
+  .video-banner-container {
     animation: fadeInUp 0.6s ease-out forwards;
   }
   
-  .banner-ad {
+  .video-banner-link {
+    display: block;
+    width: 100%;
+    max-width: 800px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .video-banner-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .video-banner-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    background: #000;
+  }
+
+  .banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .video-banner-link:hover .banner-img {
+    transform: scale(1.02);
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  .video-banner-link:hover .video-overlay {
+    opacity: 1;
+  }
+
+  .play-button {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    flex-shrink: 0;
+  }
+
+  .play-button svg {
+    width: 24px;
+    height: 24px;
+    margin-left: 2px;
+  }
+
+  .video-text {
+    color: white;
+    text-align: left;
+  }
+
+  .video-title {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 4px;
+  }
+
+  .video-subtitle {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  }
+  
+  .video-banner-default {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     position: relative;
     overflow: hidden;
   }
-  
-  .banner-ad::before {
+
+  .video-banner-default::before {
     content: '';
     position: absolute;
     top: 0;
@@ -59,11 +176,42 @@ const { position = "general", class: className = "", imageUrl } = Astro.props;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     transition: left 0.5s;
   }
-  
-  .banner-ad-link:hover .banner-ad::before {
+
+  .video-banner-link:hover .video-banner-default::before {
     left: 100%;
   }
-  
+
+  .video-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    text-align: left;
+    z-index: 1;
+    position: relative;
+  }
+
+  .video-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+  }
+
+  .video-info h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+  }
+
+  .video-info p {
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  .play-arrow {
+    font-size: 2rem;
+    animation: pulse 2s infinite;
+  }
+
   @keyframes fadeInUp {
     from {
       opacity: 0;
@@ -74,10 +222,91 @@ const { position = "general", class: className = "", imageUrl } = Astro.props;
       transform: translateY(0);
     }
   }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
   
-  @media (max-width: 640px) {
-    .banner-ad {
+  @media (max-width: 768px) {
+    .video-banner-image {
+      height: 160px;
+    }
+
+    .video-banner-default {
+      height: 140px;
+    }
+
+    .video-content {
+      gap: 1rem;
+      padding: 0 1rem;
+    }
+
+    .video-icon {
+      font-size: 2.5rem;
+    }
+
+    .video-info h3 {
+      font-size: 1.25rem;
+    }
+
+    .video-info p {
+      font-size: 0.9rem;
+    }
+
+    .play-button {
+      width: 50px;
+      height: 50px;
+    }
+
+    .play-button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .video-title {
+      font-size: 1.1rem;
+    }
+
+    .video-subtitle {
+      font-size: 0.85rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .video-banner-image {
       height: 120px;
+    }
+
+    .video-banner-default {
+      height: 120px;
+    }
+
+    .video-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 0.5rem;
+    }
+
+    .video-icon {
+      font-size: 2rem;
+    }
+
+    .video-info h3 {
+      font-size: 1.1rem;
+    }
+
+    .video-info p {
+      font-size: 0.8rem;
+    }
+
+    .video-overlay {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .video-text {
+      text-align: center;
     }
   }
 </style>
