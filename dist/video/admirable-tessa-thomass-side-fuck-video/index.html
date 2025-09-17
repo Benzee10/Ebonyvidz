@@ -30,29 +30,59 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     
-    <!-- Import map and CSS -->
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.1.1",
-        "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
-        "react/": "https://esm.sh/react@^19.1.1/",
-        "react-router-dom": "https://esm.sh/react-router-dom@^7.7.1",
-        "@google/genai": "https://esm.sh/@google/genai@^1.12.0"
+    <!-- Redirect to main app after social crawlers -->
+    <script>
+      // Redirect to main app for actual users (not crawlers)
+      if (!/bot|crawler|spider|crawling/i.test(navigator.userAgent)) {
+        window.location.replace('https://localhost:5000/#/video/admirable-tessa-thomass-side-fuck-video');
       }
-    }
     </script>
-    <link rel="stylesheet" href="/src/index.css">
     
-    <!-- Load the main app -->
-    <script type="module" src="/index.tsx"></script>
+    <!-- Fallback content for social crawlers -->
+    <style>
+      body { 
+        font-family: Arial, sans-serif; 
+        background: #111; 
+        color: white; 
+        margin: 0; 
+        padding: 20px; 
+        text-align: center; 
+      }
+      .container { 
+        max-width: 600px; 
+        margin: 0 auto; 
+        padding-top: 50px; 
+      }
+      .thumbnail { 
+        max-width: 100%; 
+        border-radius: 8px; 
+        margin: 20px 0; 
+      }
+      .title { 
+        font-size: 24px; 
+        margin: 20px 0; 
+      }
+      .description { 
+        color: #ccc; 
+        margin: 10px 0; 
+      }
+      .watch-link { 
+        display: inline-block; 
+        background: #dc2626; 
+        color: white; 
+        padding: 12px 24px; 
+        text-decoration: none; 
+        border-radius: 6px; 
+        margin-top: 20px; 
+      }
+    </style>
   </head>
   <body>
-    <div id="root">
-      <!-- Loading placeholder while React loads -->
-      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background: #111; color: white;">
-        <div>Loading Admirable Tessa Thomas's side fuck video...</div>
-      </div>
+    <div class="container">
+      <h1 class="title">Admirable Tessa Thomas's side fuck video</h1>
+      <img class="thumbnail" src="https://i.postimg.cc/MGXRMQjt/42029-0.jpg" alt="Admirable Tessa Thomas's side fuck video" />
+      <p class="description">Watch this amazing video</p>
+      <a href="https://localhost:5000/#/video/admirable-tessa-thomass-side-fuck-video" class="watch-link">Watch Video</a>
     </div>
   </body>
 </html>
