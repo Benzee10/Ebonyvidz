@@ -63,26 +63,30 @@ const { similarPosts, class: className } = Astro.props;
 
 .video-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
 }
 
 @media (max-width: 640px) {
   .video-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 }
 
 @media (min-width: 640px) and (max-width: 1024px) {
   .video-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
   }
 }
 
 @media (min-width: 1024px) {
   .video-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
   }
 }
 
@@ -90,6 +94,7 @@ const { similarPosts, class: className } = Astro.props;
   display: block;
   text-decoration: none;
   transition: transform 0.2s ease;
+  width: 100%;
 }
 
 .video-item:hover {
@@ -97,10 +102,21 @@ const { similarPosts, class: className } = Astro.props;
 }
 
 .video-thumbnail {
+  position: relative;
+  width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
   border-radius: 6px;
   background: #2a2a2a;
+  display: block;
+}
+
+.video-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .video-title {
@@ -109,6 +125,11 @@ const { similarPosts, class: className } = Astro.props;
   -webkit-box-orient: vertical;
   overflow: hidden;
   line-height: 1.3;
+  min-height: 2.6em;
+}
+
+.video-info {
+  width: 100%;
 }
 
 .tag {
@@ -120,5 +141,13 @@ const { similarPosts, class: className } = Astro.props;
 .duration-badge {
   font-size: 0.7rem;
   font-weight: 600;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 1;
+}
+
+.overlay {
+  border-radius: 6px;
 }
 </style>
