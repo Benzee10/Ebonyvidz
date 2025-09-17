@@ -58,6 +58,7 @@ Preferred communication style: Simple, everyday language.
 - **Host**: 0.0.0.0 (configured for Replit proxy)
 - **Port**: 5000 (Replit standard port)
 - **Development**: Hot reload and file watching enabled
+- **Proxy Configuration**: Vite allowedHosts set to true for Replit dynamic hostnames
 
 ### Build Process
 - **Build Command**: `pnpm run build` (includes Pagefind indexing)
