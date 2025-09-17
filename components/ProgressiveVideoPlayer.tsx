@@ -24,6 +24,7 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
   initialTime = 0
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -114,7 +115,7 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      videoRef.current?.requestFullscreen();
+      containerRef.current?.requestFullscreen();
       setIsFullscreen(true);
     } else {
       document.exitFullscreen();
@@ -129,7 +130,7 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
   };
 
   return (
-    <div className={`relative bg-black rounded-lg overflow-hidden ${className}`}>
+    <div ref={containerRef} className={`relative bg-black rounded-lg overflow-hidden ${className}`}>
       <video
         ref={videoRef}
         src={src}
@@ -195,6 +196,13 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
               <option value="720p">720p</option>
               <option value="1080p">1080p</option>
             </select>
+            
+            <button
+              onClick={toggleFullscreen}
+              className="text-white hover:text-red-400 transition-colors"
+            >
+              <ExpandIcon className="w-6 h-6" />
+            </button>
           </div>
         </div>
       </div>
