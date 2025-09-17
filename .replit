@@ -23,15 +23,15 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "Development Server"
+args = "Holding Pattern"
 
 [[workflows.workflow]]
-name = "Development Server"
+name = "Holding Pattern"
 author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "npm run dev"
+args = "node -e \"require('http').createServer((req,res)=>{res.writeHead(200,{'Content-Type':'text/plain'});res.end('Awaiting new project upload');}).listen(process.env.PORT||5000,'0.0.0.0')\""
 waitForPort = 5000
 
 [workflows.workflow.metadata]
@@ -48,10 +48,6 @@ build = ["npm", "run", "build"]
 [[ports]]
 localPort = 5000
 externalPort = 80
-
-[[ports]]
-localPort = 39525
-externalPort = 3000
 
 [agent]
 expertMode = true
