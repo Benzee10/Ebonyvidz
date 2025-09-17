@@ -1,0 +1,163 @@
+
+---
+interface Props {
+  imageUrl: string;
+  title: string;
+  category?: string;
+}
+
+const { imageUrl, title, category = "Premium" } = Astro.props;
+---
+
+<div class="content-teaser">
+  <div class="teaser-image">
+    <img src={imageUrl} alt={title} class="blurred-preview" />
+    <div class="unlock-overlay">
+      <div class="lock-icon">🔒</div>
+      <h3>Premium Content</h3>
+      <p>Unlock to view full HD quality</p>
+      <a href="https://whatsappad.vercel.app/" class="unlock-btn">
+        🔓 Unlock Now
+      </a>
+      <div class="preview-count">👁️ 2,847 views today</div>
+    </div>
+  </div>
+  <div class="teaser-info">
+    <span class="category-tag">{category}</span>
+    <h4>{title}</h4>
+  </div>
+</div>
+
+<style>
+  .content-teaser {
+    position: relative;
+    margin: 2rem 0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .teaser-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .blurred-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(8px);
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+  }
+  
+  .unlock-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .content-teaser:hover .unlock-overlay {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .content-teaser:hover .blurred-preview {
+    filter: blur(4px);
+    transform: scale(1.05);
+  }
+  
+  .lock-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: glow 2s infinite alternate;
+  }
+  
+  .unlock-overlay h3 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: bold;
+  }
+  
+  .unlock-overlay p {
+    margin: 0 0 1.5rem 0;
+    opacity: 0.9;
+  }
+  
+  .unlock-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2rem;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+  }
+  
+  .unlock-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.5);
+  }
+  
+  .preview-count {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    color: #FFD700;
+  }
+  
+  .teaser-info {
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+  }
+  
+  .category-tag {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+  .teaser-info h4 {
+    margin: 0.5rem 0 0 0;
+    font-size: 1.1rem;
+  }
+  
+  @keyframes glow {
+    from { text-shadow: 0 0 10px #ff6b6b; }
+    to { text-shadow: 0 0 20px #ff6b6b, 0 0 30px #ff6b6b; }
+  }
+  
+  @media (max-width: 768px) {
+    .teaser-image {
+      height: 250px;
+    }
+    
+    .lock-icon {
+      font-size: 2.5rem;
+    }
+    
+    .unlock-overlay h3 {
+      font-size: 1.3rem;
+    }
+    
+    .unlock-btn {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+</style>
+</div>
