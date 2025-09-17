@@ -11,14 +11,3 @@ video:
   url: "http://c1.cdnwe.com/uploads_c564db0d0a6e5773f25ad87d4fdeb8dd/40780/BySex_Net_40780_480p.mp4"
   duration: "08:00"
 ---
-
-## Watch: Star Armani's Ebony Video
-
-![Star Armani](https://i.postimg.cc/jjkqPVbf/40780-0.jpg)
-
-<video width="100%" height="auto" controls preload="metadata" poster="https://i.postimg.cc/jjkqPVbf/40780-0.jpg">
-  <source src="http://c1.cdnwe.com/uploads_c564db0d0a6e5773f25ad87d4fdeb8dd/40780/BySex_Net_40780_480p.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-👉 Indulge in 8 minutes of premium ebony action, available only for members.
