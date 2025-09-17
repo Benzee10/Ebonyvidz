@@ -72,6 +72,28 @@
     color: #9ca3af;
 }
 
+/* Video player protection */
+.video-container {
+    position: relative;
+    z-index: 10;
+}
+
+.video-container video {
+    position: relative;
+    z-index: 10;
+    background: #000;
+}
+
+/* Prevent ad overlays on video players */
+.video-player-wrapper * {
+    pointer-events: auto !important;
+}
+
+.video-player-wrapper .banner-ad,
+.video-player-wrapper .cta-overlay {
+    display: none !important;
+}
+
 /* Video thumbnail styling */
 .video-thumbnail {
     position: relative;

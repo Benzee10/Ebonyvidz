@@ -37,7 +37,8 @@ Experience this exclusive African content featuring a Ghanaian performer with a 
     poster="https://www.leaktube.org/media/videos/tmb/903/1.jpg"
     width="100%" 
     height="450" 
-    style="border-radius: 12px;"
+    style="border-radius: 12px; display: block;"
+    preload="metadata"
   >
     <source src="https://www.leaktube.org/media/videos/h264/903_480p.mp4" type="video/mp4">
     Your browser does not support the video tag.

@@ -12,45 +12,107 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
 ---
 
 {videoUrl && (
-  <div class:list={["video-player-container relative rounded-xl overflow-hidden shadow-lg", className]}>
-    <div class="relative bg-black rounded-xl overflow-hidden">
+  <div class:list={["video-player-wrapper", className]}>
+    <div class="video-container">
       <video 
         controls 
         poster={thumbnail}
-        class="w-full h-auto"
         preload="metadata"
-        controlsList="nodownload"
+        class="video-player"
       >
         <source src={videoUrl} type="video/mp4">
         Your browser does not support the video tag.
       </video>
       
-      <!-- Video Info Overlay -->
       {(title || duration) && (
-        <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2 text-white text-sm">
-          {title && <div class="font-semibold">{title}</div>}
-          {duration && <div class="text-white/80">🎬 {duration}</div>}
+        <div class="video-info-overlay">
+          {title && <div class="video-title">{title}</div>}
+          {duration && <div class="video-duration">🎬 {duration}</div>}
         </div>
       )}
-    </div>
-    
-    <!-- Premium Badge -->
-    <div class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-      PREMIUM
     </div>
   </div>
 )}
 
 <style>
-  .video-player-container video {
-    max-height: 70vh;
+  .video-player-wrapper {
+    margin: 2rem auto;
+    max-width: 800px;
+    width: 100%;
   }
-  
-  .video-player-container video::-webkit-media-controls-download-button {
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: #000;
+  }
+
+  .video-player {
+    width: 100%;
+    height: auto;
+    max-height: 70vh;
+    display: block;
+    border-radius: 12px;
+  }
+
+  .video-info-overlay {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    padding: 0.75rem;
+    color: white;
+    font-size: 0.875rem;
+    pointer-events: none;
+  }
+
+  .video-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .video-duration {
+    opacity: 0.9;
+  }
+
+  /* Hide download button in webkit browsers */
+  .video-player::-webkit-media-controls-download-button {
     display: none;
   }
-  
-  .video-player-container video::-webkit-media-controls-enclosure {
+
+  .video-player::-webkit-media-controls-enclosure {
     overflow: hidden;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .video-player-wrapper {
+      margin: 1.5rem auto;
+    }
+
+    .video-info-overlay {
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .video-player-wrapper {
+      margin: 1rem 0;
+    }
+
+    .video-info-overlay {
+      position: static;
+      background: rgba(0, 0, 0, 0.9);
+      border-radius: 0 0 8px 8px;
+      margin-top: -4px;
+    }
   }
 </style>

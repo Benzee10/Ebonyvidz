@@ -177,27 +177,8 @@ const jsonLd = {
             <!-- always show cover as long as it has one -->
 
             {entry.data.image &&
-                <div class="mb-8 rounded-xl banner-container onload-animation relative">
+                <div class="mb-8 rounded-xl banner-container onload-animation">
                     <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="rounded-xl"/>
-                    {entry.data.videoUrl && (
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-20 h-20 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors cursor-pointer"
-                                 onclick="this.style.display='none'; this.nextElementSibling.style.display='block';">
-                                <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M8 5v14l11-7z"/>
-                                </svg>
-                            </div>
-                            <video 
-                                controls 
-                                style="display: none; width: 100%; border-radius: 12px;"
-                                poster={entry.data.image}
-                                preload="metadata"
-                            >
-                                <source src={entry.data.videoUrl} type="video/mp4">
-                                Your browser does not support the video tag.
-                            </video>
-                        </div>
-                    )}
                 </div>
             }
 
