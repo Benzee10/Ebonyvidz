@@ -124,8 +124,22 @@ const createVideoPageHTML = (video: Video): string => {
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     
+    <!-- Import map and CSS -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.1.1",
+        "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
+        "react/": "https://esm.sh/react@^19.1.1/",
+        "react-router-dom": "https://esm.sh/react-router-dom@^7.7.1",
+        "@google/genai": "https://esm.sh/@google/genai@^1.12.0"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="/src/index.css">
+    
     <!-- Load the main app -->
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
   </head>
   <body>
     <div id="root">
