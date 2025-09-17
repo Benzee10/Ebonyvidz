@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import WatchPage from './pages/WatchPage';
 import AddVideoPage from './pages/AddVideoPage';
@@ -51,7 +51,7 @@ function App() {
   }, []);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors">
         {/* Header with red navigation styling */}
         <header className="sticky top-0 z-50 bg-red-600 border-b border-red-700 shadow-xl">
@@ -102,7 +102,7 @@ function App() {
         <StickyWidget />
         <DailyPopup />
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
