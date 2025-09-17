@@ -121,8 +121,16 @@ const jsonLd = {
         <div id="post-container" class:list={["card-base z-10 px-6 md:px-9 pt-6 pb-4 relative w-full ",
             {}
         ]}>
-            <!-- word count and reading time -->
+            <!-- video metadata and reading time -->
             <div class="flex flex-row text-black/30 dark:text-white/30 gap-5 mb-3 transition onload-animation">
+                {entry.data.duration && (
+                    <div class="flex flex-row items-center">
+                        <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
+                            <Icon name="material-symbols:play-circle-outline"></Icon>
+                        </div>
+                        <div class="text-sm">🎬 {entry.data.duration}</div>
+                    </div>
+                )}
                 <div class="flex flex-row items-center">
                     <div class="transition h-6 w-6 rounded-md bg-black/5 dark:bg-white/10 text-black/50 dark:text-white/50 flex items-center justify-center mr-2">
                         <Icon name="material-symbols:notes-rounded"></Icon>
@@ -168,7 +176,28 @@ const jsonLd = {
             <!-- always show cover as long as it has one -->
 
             {entry.data.image &&
-                <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="mb-8 rounded-xl banner-container onload-animation"/>
+                <div class="mb-8 rounded-xl banner-container onload-animation relative">
+                    <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="rounded-xl"/>
+                    {entry.data.videoUrl && (
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-20 h-20 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-black/70 transition-colors cursor-pointer"
+                                 onclick="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                                <svg class="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                            <video 
+                                controls 
+                                style="display: none; width: 100%; border-radius: 12px;"
+                                poster={entry.data.image}
+                                preload="metadata"
+                            >
+                                <source src={entry.data.videoUrl} type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    )}
+                </div>
             }
 
             <!-- Top Banner Ad -->

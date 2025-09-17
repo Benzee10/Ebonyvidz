@@ -1,0 +1,56 @@
+
+---
+interface Props {
+  videoUrl?: string;
+  thumbnail?: string;
+  title?: string;
+  duration?: string;
+  class?: string;
+}
+
+const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
+---
+
+{videoUrl && (
+  <div class:list={["video-player-container relative rounded-xl overflow-hidden shadow-lg", className]}>
+    <div class="relative bg-black rounded-xl overflow-hidden">
+      <video 
+        controls 
+        poster={thumbnail}
+        class="w-full h-auto"
+        preload="metadata"
+        controlsList="nodownload"
+      >
+        <source src={videoUrl} type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      
+      <!-- Video Info Overlay -->
+      {(title || duration) && (
+        <div class="absolute top-4 left-4 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-2 text-white text-sm">
+          {title && <div class="font-semibold">{title}</div>}
+          {duration && <div class="text-white/80">🎬 {duration}</div>}
+        </div>
+      )}
+    </div>
+    
+    <!-- Premium Badge -->
+    <div class="absolute top-4 right-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+      PREMIUM
+    </div>
+  </div>
+)}
+
+<style>
+  .video-player-container video {
+    max-height: 70vh;
+  }
+  
+  .video-player-container video::-webkit-media-controls-download-button {
+    display: none;
+  }
+  
+  .video-player-container video::-webkit-media-controls-enclosure {
+    overflow: hidden;
+  }
+</style>
