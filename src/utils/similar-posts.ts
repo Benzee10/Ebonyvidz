@@ -1,5 +1,6 @@
 
 import type { CollectionEntry } from "astro:content";
+import { getSortedPosts } from "@utils/content-utils";
 
 export interface SimilarPost {
   slug: string;
@@ -7,10 +8,15 @@ export interface SimilarPost {
   similarity: number;
 }
 
+// Simple in-memory cache with TTL to allow new content to appear
+const similarPostsCache = new Map<string, { results: SimilarPost[], timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes TTL
+
 export function findSimilarPosts(
   currentPost: CollectionEntry<"posts">,
   allPosts: CollectionEntry<"posts">[],
-  limit: number = 4
+  limit: number = 4,
+  videosOnly: boolean = false
 ): SimilarPost[] {
   if (!currentPost || !allPosts || allPosts.length === 0) {
     return [];
@@ -19,33 +25,46 @@ export function findSimilarPosts(
   const currentTags = currentPost.data.tags || [];
   const currentCategory = currentPost.data.category;
 
-  // Filter out the current post and draft posts
+  // Filter out the current post, draft posts, and optionally filter for videos only
   const otherPosts = allPosts.filter(post => 
     post.slug !== currentPost.slug && 
-    !post.data.draft
+    !post.data.draft &&
+    (!videosOnly || post.data.videoUrl) // Only include posts with videoUrl if videosOnly is true
   );
 
   if (otherPosts.length === 0) {
     return [];
   }
 
-  // Calculate similarity scores
+  // Calculate similarity scores with enhanced algorithm
   const postsWithScores = otherPosts.map(post => {
     let similarity = 0;
     const postTags = post.data.tags || [];
 
-    // Category match gives highest score
+    // Category match gives highest score (3x weight)
     if (post.data.category === currentCategory) {
-      similarity += 5;
+      similarity += 3.0;
     }
 
-    // Tag matches
+    // Tag matches with Jaccard similarity (2x weight)
     const commonTags = currentTags.filter(tag => 
       postTags.includes(tag)
     );
-    similarity += commonTags.length * 2;
+    const unionTags = new Set([...currentTags, ...postTags]);
+    const jaccardSimilarity = commonTags.length / unionTags.size;
+    similarity += jaccardSimilarity * 2.0;
 
-    // Base similarity for variety
+    // Same language bonus (1.5x weight)
+    if (post.data.lang === currentPost.data.lang) {
+      similarity += 1.5;
+    }
+
+    // Recency bonus (0.5x weight)
+    const daysDiff = (Date.now() - new Date(post.data.published).getTime()) / (1000 * 60 * 60 * 24);
+    const recencyScore = Math.max(0, 1 - daysDiff / 365); // Decay over a year
+    similarity += recencyScore * 0.5;
+
+    // Small random factor for variety
     similarity += Math.random() * 0.1;
 
     return {
@@ -83,4 +102,42 @@ export function findSimilarPosts(
   }
 
   return result;
+}
+
+// Enhanced function that works with Astro content collections
+export async function getSimilarPosts(
+  currentPost: CollectionEntry<"posts">,
+  limit: number = 4,
+  videosOnly: boolean = false
+): Promise<CollectionEntry<"posts">[]> {
+  const allPosts = await getSortedPosts();
+  const cacheKey = `${currentPost.slug}-${limit}-${videosOnly}-${allPosts.length}`;
+  
+  // Check cache with TTL
+  const cached = similarPostsCache.get(cacheKey);
+  const now = Date.now();
+  if (cached && (now - cached.timestamp) < CACHE_TTL) {
+    // Convert back to CollectionEntry format
+    return cached.results.map(result => 
+      allPosts.find(post => post.slug === result.slug)!
+    ).filter(Boolean);
+  }
+  
+  const similarPosts = findSimilarPosts(currentPost, allPosts, limit, videosOnly);
+  
+  // Cache the results with timestamp
+  similarPostsCache.set(cacheKey, { results: similarPosts, timestamp: now });
+  
+  // Convert to CollectionEntry format
+  return similarPosts.map(result => 
+    allPosts.find(post => post.slug === result.slug)!
+  ).filter(Boolean);
+}
+
+// Video-specific function for easier usage
+export async function getSimilarVideos(
+  currentPost: CollectionEntry<"posts">,
+  limit: number = 4
+): Promise<CollectionEntry<"posts">[]> {
+  return getSimilarPosts(currentPost, limit, true);
 }

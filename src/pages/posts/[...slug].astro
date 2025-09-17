@@ -13,6 +13,7 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import BannerAd from "../../components/BannerAd.astro";
 import RelatedGallery from "../../components/RelatedGallery.astro";
+import SimilarPosts from "../../components/SimilarPosts.astro";
 import InContentCTA from '../../components/InContentCTA.astro';
 import ScrollProgressCTA from '../../components/ScrollProgressCTA.svelte';
 import ImageOverlayCTA from '../../components/ImageOverlayCTA.astro';
@@ -23,11 +24,11 @@ import { findSimilarPosts } from "../../utils/similar-posts";
 import VideoDownloadCTA from "../../components/VideoDownloadCTA.astro";
 
 export async function getStaticPaths() {
-	const blogEntries = await getSortedPosts();
-	return blogEntries.map((entry) => ({
-		params: { slug: entry.slug },
-		props: { entry, allPosts: blogEntries },
-	}));
+        const blogEntries = await getSortedPosts();
+        return blogEntries.map((entry) => ({
+                params: { slug: entry.slug },
+                props: { entry, allPosts: blogEntries },
+        }));
 }
 
 const { entry, allPosts } = Astro.props;
@@ -41,15 +42,15 @@ const similarPosts = findSimilarPosts(entry, allPosts, 4);
 // Generate Open Graph image URL
 let ogImageUrl = "";
 if (entry.data.image) {
-	if (entry.data.image.startsWith("http://") || entry.data.image.startsWith("https://")) {
-		ogImageUrl = entry.data.image;
-	} else if (entry.data.image.startsWith("/")) {
-		ogImageUrl = new URL(entry.data.image, Astro.site).toString();
-	} else {
-		// Relative to markdown file
-		const imagePath = path.join("content/posts/", getDir(entry.id), entry.data.image);
-		ogImageUrl = new URL(imagePath, Astro.site).toString();
-	}
+        if (entry.data.image.startsWith("http://") || entry.data.image.startsWith("https://")) {
+                ogImageUrl = entry.data.image;
+        } else if (entry.data.image.startsWith("/")) {
+                ogImageUrl = new URL(entry.data.image, Astro.site).toString();
+        } else {
+                // Relative to markdown file
+                const imagePath = path.join("content/posts/", getDir(entry.id), entry.data.image);
+                ogImageUrl = new URL(imagePath, Astro.site).toString();
+        }
 }
 
 // Debug: Log the OG image URL
@@ -59,32 +60,32 @@ console.log(`Generated OG image URL: ${ogImageUrl}`);
 
 // Generate short description for Open Graph (under 150 characters)
 const ogDescription = entry.data.description 
-	? (entry.data.description.length > 150 
-		? entry.data.description.substring(0, 147) + "..." 
-		: entry.data.description)
-	: (entry.data.title.length > 150 
-		? entry.data.title.substring(0, 147) + "..." 
-		: entry.data.title);
+        ? (entry.data.description.length > 150 
+                ? entry.data.description.substring(0, 147) + "..." 
+                : entry.data.description)
+        : (entry.data.title.length > 150 
+                ? entry.data.title.substring(0, 147) + "..." 
+                : entry.data.title);
 
 // Generate full post URL
 const postUrl = new URL(`/posts/${entry.slug}/`, Astro.site).toString();
 
 const jsonLd = {
-	"@context": "https://schema.org",
-	"@type": "BlogPosting",
-	headline: entry.data.title,
-	description: entry.data.description || entry.data.title,
-	keywords: entry.data.tags,
-	author: {
-		"@type": "Person",
-		name: profileConfig.name,
-		url: Astro.site,
-	},
-	datePublished: formatDateToYYYYMMDD(entry.data.published),
-	inLanguage: entry.data.lang
-		? entry.data.lang.replace("_", "-")
-		: siteConfig.lang.replace("_", "-"),
-	image: ogImageUrl,
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: entry.data.title,
+        description: entry.data.description || entry.data.title,
+        keywords: entry.data.tags,
+        author: {
+                "@type": "Person",
+                name: profileConfig.name,
+                url: Astro.site,
+        },
+        datePublished: formatDateToYYYYMMDD(entry.data.published),
+        inLanguage: entry.data.lang
+                ? entry.data.lang.replace("_", "-")
+                : siteConfig.lang.replace("_", "-"),
+        image: ogImageUrl,
 };
 ---
 <MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
@@ -212,8 +213,14 @@ const jsonLd = {
     <!-- Download Button -->
     <VideoDownloadCTA />
 
-    <!-- Related Gallery Section -->
-    <RelatedGallery similarPosts={similarPosts} class="mb-8 onload-animation" />
+    <!-- Related Gallery/Video Section -->
+    {entry.data.videoUrl ? (
+        <!-- Show video-specific similar posts grid for video content -->
+        <SimilarPosts currentPost={entry} />
+    ) : (
+        <!-- Show regular related gallery for non-video content -->
+        <RelatedGallery similarPosts={similarPosts} class="mb-8 onload-animation" />
+    )}
 
     <div class="flex flex-col md:flex-row justify-between mb-4 gap-4 overflow-hidden w-full">
         <a href={entry.data.nextSlug ? getPostUrlBySlug(entry.data.nextSlug) : "#"}

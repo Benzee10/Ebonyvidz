@@ -1,14 +1,32 @@
 
 ---
+import path from "node:path";
 import type { CollectionEntry } from "astro:content";
-import { getSimilarPosts } from "../utils/similar-posts";
+import { getSimilarVideos } from "../utils/similar-posts";
+import { getDir } from "@utils/url-utils";
 
 interface Props {
   currentPost: CollectionEntry<"posts">;
 }
 
 const { currentPost } = Astro.props;
-const similarPosts = await getSimilarPosts(currentPost, 4);
+// Only show for video posts, get 4 similar videos
+const similarPosts = currentPost.data.videoUrl ? await getSimilarVideos(currentPost, 4) : [];
+
+// Function to resolve image URL properly
+function resolveImageUrl(post: CollectionEntry<"posts">, imageUrl: string | undefined): string {
+  if (!imageUrl) return '/favicon/favicon-light-192.png';
+  
+  if (imageUrl.startsWith("http://") || imageUrl.startsWith("https://")) {
+    return imageUrl;
+  } else if (imageUrl.startsWith("/")) {
+    return imageUrl;
+  } else {
+    // Relative to markdown file - convert to absolute URL
+    const imagePath = path.join("content/posts/", getDir(post.id), imageUrl);
+    return new URL(imagePath, Astro.site).toString();
+  }
+}
 ---
 
 {similarPosts.length > 0 && (
@@ -24,7 +42,7 @@ const similarPosts = await getSimilarPosts(currentPost, 4);
           <a href={`/posts/${post.slug}/`} class="video-link">
             <div class="video-thumbnail">
               <img 
-                src={post.data.image || '/favicon/favicon-light-192.png'} 
+                src={resolveImageUrl(post, post.data.image)} 
                 alt={post.data.title}
                 loading="lazy"
               />
