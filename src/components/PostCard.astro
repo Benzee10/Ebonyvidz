@@ -42,68 +42,46 @@ const coverWidth = "28%";
 
 const { remarkPluginFrontmatter } = await entry.render();
 ---
-<div class:list={["video-card bg-[var(--card-bg)] rounded-lg overflow-hidden group cursor-pointer transition-all duration-300 hover:shadow-xl hover:transform hover:-translate-y-2", className]} style={style}>
-    <a href={url} class="block">
-        <!-- Video Thumbnail -->
-        <div class="relative aspect-video overflow-hidden bg-black rounded-t-lg">
-            {hasCover ? (
-                <ImageWrapper 
-                    src={image} 
-                    basePath={path.join("content/posts/", getDir(entry.id))} 
-                    alt="Video Thumbnail"
-                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-            ) : (
-                <div class="w-full h-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-                    <svg class="w-16 h-16 text-white opacity-60" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                </div>
-            )}
-            
-            <!-- Duration Badge -->
-            {entry.data.duration && (
-                <div class="absolute bottom-2 right-2 bg-black/90 text-white px-2 py-1 rounded text-xs font-bold shadow-md">
-                    {entry.data.duration}
-                </div>
-            )}
-            
-            <!-- Play Button Overlay -->
-            <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div class="w-16 h-16 bg-white/95 rounded-full flex items-center justify-center shadow-lg">
-                    <svg class="w-6 h-6 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Video Info -->
-        <div class="p-4">
-            <h3 class="text-gray-900 dark:text-white font-semibold text-sm md:text-base line-clamp-2 leading-tight mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                {title}
-            </h3>
-            <div class="flex flex-col gap-1 text-xs">
-                <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-                    <span>👁️ Views</span>
-                    {entry.data.category && (
-                        <span class="text-purple-600 dark:text-purple-400 font-medium">• {entry.data.category}</span>
-                    )}
-                </div>
-                {tags.length > 0 && (
-                    <div class="flex flex-wrap gap-1 mt-1">
-                        {tags.slice(0, 3).map(tag => (
-                            <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded text-xs font-medium">
-                                #{tag}
-                            </span>
-                        ))}
-                    </div>
-                )}
-            </div>
-        </div>
-    </a>
-</div></old_str>
-<div class="transition border-t-[1px] border-dashed mx-6 border-black/10 dark:border-white/[0.15] last:border-t-0 md:hidden"></div>
+<div class="video-card group">
+	<a href={url} class="block text-white hover:text-white">
+		{image && (
+			<div class="video-thumbnail relative">
+				<ImageWrapper
+					src={image}
+					basePath={path.join("content/posts/", getDir(entry.id))}
+					alt="Video Thumbnail"
+					class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+				/>
+				{entry.data.duration && (
+					<span class="duration-badge absolute bottom-2 right-2 bg-black/90 text-white px-2 py-1 rounded text-xs font-bold shadow-md">
+						{entry.data.duration}
+					</span>
+				)}
+				<div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+					<div class="w-16 h-16 bg-white/95 rounded-full flex items-center justify-center shadow-lg">
+						<svg class="w-6 h-6 text-gray-800 ml-1" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M8 5v14l11-7z"/>
+						</svg>
+					</div>
+				</div>
+			</div>
+		)}
+
+		<div class="p-3">
+			<h3 class="text-white text-sm font-medium line-clamp-2 group-hover:text-purple-400 transition-colors mb-2">
+				{title}
+			</h3>
+
+			<div class="flex flex-wrap gap-1">
+				{tags.slice(0, 2).map(tag => (
+					<span class="video-tag bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-2 py-0.5 rounded text-xs font-medium">
+						#{tag}
+					</span>
+				))}
+			</div>
+		</div>
+	</a>
+</div>
 
 <style define:vars={{coverWidth}}>
 </style>
