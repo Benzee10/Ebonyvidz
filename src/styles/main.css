@@ -126,6 +126,15 @@
     min-height: 300px;
 }
 
+/* Mobile video fixes */
+@media (max-width: 768px) {
+    .video-section iframe,
+    .video-section video {
+        min-height: unset;
+        height: auto;
+    }
+}
+
 /* Prevent any overlays on video content */
 .video-section::before,
 .video-section::after,
@@ -183,19 +192,19 @@
 /* Additional styles can be added here */
 
 .gallery-card {
-	transition: all 0.3s ease;
+        transition: all 0.3s ease;
 }
 
 .gallery-card:hover {
-	transform: translateY(-4px);
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 .line-clamp-2 {
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
 }
 
 @layer components {
@@ -340,15 +349,15 @@
 
 /* Line clamp utilities for similar posts */
 .line-clamp-2 {
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
 }
 
 .line-clamp-3 {
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
 }

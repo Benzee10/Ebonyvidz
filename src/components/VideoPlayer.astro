@@ -207,10 +207,19 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
     .video-player-wrapper {
       margin: 1.5rem auto;
       max-width: 100%;
+      padding: 0 1rem;
     }
 
     .video-container {
       border-radius: 8px;
+      max-height: 60vh;
+      aspect-ratio: 16/9;
+    }
+
+    .video-iframe,
+    .video-player {
+      max-height: 60vh;
+      object-fit: contain;
     }
 
     .video-info-overlay {
@@ -228,10 +237,19 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
   @media (max-width: 480px) {
     .video-player-wrapper {
       margin: 1rem auto;
+      padding: 0 0.5rem;
     }
 
     .video-container {
       border-radius: 6px;
+      max-height: 50vh;
+      aspect-ratio: 16/9;
+    }
+
+    .video-iframe,
+    .video-player {
+      max-height: 50vh;
+      object-fit: contain;
     }
 
     .video-info-overlay {
