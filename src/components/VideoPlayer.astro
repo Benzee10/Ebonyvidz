@@ -1,4 +1,3 @@
-
 ---
 interface Props {
   videoUrl?: string;
@@ -23,7 +22,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           src={secureVideoUrl}
           frameborder="0"
           width="100%"
-          height="450"
           scrolling="no"
           allowfullscreen
           allow="autoplay; fullscreen; encrypted-media"
@@ -65,7 +63,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           src={secureVideoUrl}
           frameborder="0"
           width="100%"
-          height="450"
           scrolling="no"
           allowfullscreen
           allow="autoplay; fullscreen; encrypted-media"
@@ -74,7 +71,7 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
           sandbox="allow-scripts allow-same-origin allow-presentation"
         ></iframe>
       )}
-      
+
       {(title || duration) && (
         <div class="video-info-overlay">
           {title && <div class="video-title">{title}</div>}
@@ -254,7 +251,7 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
   document.addEventListener('DOMContentLoaded', function() {
     const videos = document.querySelectorAll('.video-player');
     const iframes = document.querySelectorAll('.video-iframe');
-    
+
     videos.forEach(video => {
       video.addEventListener('error', function(e) {
         console.warn('Video loading error:', e);
