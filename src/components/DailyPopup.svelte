@@ -4,7 +4,7 @@
 
   let showPopup = false;
 
-  const redirectUrl = "https://redirect01-z56s-git-main-benzee10000s-projects.vercel.app/";
+  const redirectUrl = "https://whatsappad.vercel.app/";
 
   function checkAndShowPopup() {
     const today = new Date().toDateString();
