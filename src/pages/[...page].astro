@@ -15,10 +15,10 @@ const { page } = Astro.props;
 ---
 
 <MainGridLayout>
-    <div class="video-grid-container">
-        <div class="video-grid">
+    <div class="video-feed-container">
+        <div class="video-feed">
             {page.data.map((entry, index) => (
-                <div class="video-item" style={`animation-delay: ${index * 100}ms`}>
+                <div class="video-card" style={`animation-delay: ${index * 100}ms`}>
                     <a href={`/posts/${entry.slug}/`} class="video-link">
                         <div class="video-thumbnail">
                             <img 
@@ -38,11 +38,15 @@ const { page } = Astro.props;
                         <div class="video-info">
                             <h3 class="video-title">{entry.data.title}</h3>
                             <div class="video-meta">
-                                <span class="video-views">Views</span>
+                                {entry.data.category && (
+                                    <span class="video-category">{entry.data.category}</span>
+                                )}
                                 {entry.data.tags && entry.data.tags.length > 0 && (
-                                    <span class="video-tags">
-                                        {entry.data.tags.slice(0, 3).join(', ')}
-                                    </span>
+                                    <div class="video-tags">
+                                        {entry.data.tags.slice(0, 2).map(tag => (
+                                            <span class="tag">#{tag}</span>
+                                        ))}
+                                    </div>
                                 )}
                             </div>
                         </div>
@@ -55,37 +59,34 @@ const { page } = Astro.props;
 </MainGridLayout>
 
 <style>
-    .video-grid-container {
+    .video-feed-container {
         min-height: 100vh;
-        padding: 1rem;
+        background: #1a1a1a;
+        color: white;
     }
     
-    .video-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-        max-width: 1200px;
+    .video-feed {
+        max-width: 480px;
         margin: 0 auto;
+        background: #000;
     }
     
-    .video-item {
-        background: var(--card-bg);
-        border-radius: 8px;
-        overflow: hidden;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    .video-card {
+        background: #1a1a1a;
+        margin-bottom: 1px;
         animation: fadeInUp 0.6s ease-out forwards;
         opacity: 0;
+        transition: background-color 0.2s ease;
     }
     
-    .video-item:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    .video-card:hover {
+        background: #2a2a2a;
     }
     
     .video-link {
         display: block;
         text-decoration: none;
-        color: inherit;
+        color: white;
     }
     
     .video-thumbnail {
@@ -103,20 +104,21 @@ const { page } = Astro.props;
         transition: transform 0.3s ease;
     }
     
-    .video-item:hover .video-thumbnail img {
-        transform: scale(1.05);
+    .video-card:hover .video-thumbnail img {
+        transform: scale(1.02);
     }
     
     .duration-badge {
         position: absolute;
         bottom: 8px;
         right: 8px;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
         color: white;
-        padding: 2px 6px;
-        border-radius: 3px;
+        padding: 3px 8px;
+        border-radius: 4px;
         font-size: 12px;
         font-weight: bold;
+        letter-spacing: 0.5px;
     }
     
     .play-overlay {
@@ -126,36 +128,39 @@ const { page } = Astro.props;
         transform: translate(-50%, -50%);
         width: 60px;
         height: 60px;
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.15);
+        border: 2px solid rgba(255, 255, 255, 0.8);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         opacity: 0;
-        transition: opacity 0.3s ease;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
     }
     
-    .video-item:hover .play-overlay {
+    .video-card:hover .play-overlay {
         opacity: 1;
+        background: rgba(255, 255, 255, 0.25);
     }
     
     .play-icon {
-        width: 24px;
-        height: 24px;
-        color: #000;
-        margin-left: 3px;
+        width: 20px;
+        height: 20px;
+        color: white;
+        margin-left: 2px;
     }
     
     .video-info {
-        padding: 1rem;
+        padding: 12px 16px;
     }
     
     .video-title {
-        font-size: 1rem;
-        font-weight: 600;
-        line-height: 1.3;
-        margin: 0 0 0.5rem 0;
-        color: var(--primary-text);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.4;
+        margin: 0 0 8px 0;
+        color: white;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -165,30 +170,42 @@ const { page } = Astro.props;
     .video-meta {
         display: flex;
         flex-direction: column;
-        gap: 0.25rem;
-        font-size: 0.875rem;
-        color: var(--secondary-text);
+        gap: 4px;
+        font-size: 12px;
     }
     
-    .video-views {
+    .video-category {
+        color: #999;
         font-weight: 500;
+        text-transform: capitalize;
     }
     
     .video-tags {
-        color: var(--primary);
-        font-size: 0.8rem;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    
+    .tag {
+        color: #66b3ff;
+        font-size: 11px;
+        background: rgba(102, 179, 255, 0.1);
+        padding: 2px 6px;
+        border-radius: 3px;
     }
     
     .pagination-container {
-        margin: 3rem auto 2rem;
+        margin: 2rem auto;
         display: flex;
         justify-content: center;
+        background: #1a1a1a;
+        padding: 1rem;
     }
     
     @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(20px);
         }
         to {
             opacity: 1;
@@ -197,18 +214,16 @@ const { page } = Astro.props;
     }
     
     @media (max-width: 768px) {
-        .video-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-            padding: 0 0.5rem;
+        .video-feed {
+            max-width: 100%;
         }
         
         .video-info {
-            padding: 0.75rem;
+            padding: 10px 12px;
         }
         
         .video-title {
-            font-size: 0.9rem;
+            font-size: 13px;
         }
         
         .play-overlay {
@@ -217,15 +232,8 @@ const { page } = Astro.props;
         }
         
         .play-icon {
-            width: 20px;
-            height: 20px;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .video-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
+            width: 18px;
+            height: 18px;
         }
     }
 </style>
