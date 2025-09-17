@@ -11,7 +11,6 @@ import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
 import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
-import BannerAd from "../../components/BannerAd.astro";
 import RelatedGallery from "../../components/RelatedGallery.astro";
 import SimilarPosts from "../../components/SimilarPosts.astro";
 import InContentCTA from '../../components/InContentCTA.astro';
@@ -184,8 +183,6 @@ const jsonLd = {
                 </div>
             }
 
-            <!-- Top Banner Ad -->
-            <BannerAd position="top" class="onload-animation" imageUrl="https://i.postimg.cc/B6gn21rJ/preview-1-1.jpg" />
 
             <!-- Top Contextual CTA -->
             <ContextualCTA context="gallery" position="top" />
@@ -209,8 +206,6 @@ const jsonLd = {
             <!-- Middle Contextual CTA -->
             <ContextualCTA context="premium" position="middle" />
 
-            <!-- Bottom Banner Ad -->
-            <BannerAd position="bottom" class="onload-animation" imageUrl="https://i.postimg.cc/yx8Yj8Kc/preview-1.jpg" />
 
             <!-- Bottom Contextual CTA -->
             <ContextualCTA context="bio" position="bottom" />
@@ -262,68 +257,4 @@ const jsonLd = {
 
 </MainGridLayout>
 
-<script>
-  import BannerAd from "../../components/BannerAd.astro";
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const postContent = document.getElementById('post-content');
-    if (postContent) {
-      const paragraphs = postContent.querySelectorAll('p');
-      const images = postContent.querySelectorAll('img');
-      const allElements = postContent.querySelectorAll('p, img, h1, h2, h3, h4, h5, h6');
-
-      if (allElements.length > 2) {
-        // Find the middle position (around 40-60% of content)
-        const middleIndex = Math.floor(allElements.length * 0.5);
-        const targetElement = allElements[middleIndex];
-
-        // Create middle banner ad
-        const middleBannerContainer = document.createElement('div');
-        middleBannerContainer.className = 'banner-ad-container w-full flex justify-center my-6';
-        middleBannerContainer.innerHTML = `
-          <a href="https://redirect01-z56s-git-main-benzee10000s-projects.vercel.app/"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="banner-ad-link block w-full max-w-4xl transition-transform hover:scale-[1.02] active:scale-[0.98]"
-             aria-label="Banner Advertisement - middle">
-            <div class="banner-ad w-full h-40 md:h-48 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 relative">
-              <img
-                src="https://i.postimg.cc/tJS7GjTW/140e925065074859ca5d7721f5bb3883-20.jpg"
-                alt="Advertisement"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
-              <div class="absolute inset-0 bg-black/10 hover:bg-black/5 transition-all duration-300"></div>
-            </div>
-          </a>
-        `;
-
-        // Insert after the target element
-        targetElement.parentNode.insertBefore(middleBannerContainer, targetElement.nextSibling);
-      }
-    }
-  });
-</script>
-
-<style>
-  .banner-ad {
-    background: linear-gradient(135deg, #667ea 0%, #764ba2 100%);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .banner-ad::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    transition: left 0.5s;
-  }
-
-  .banner-ad-link:hover .banner-ad::before {
-    left: 100%;
-  }
-</style>
