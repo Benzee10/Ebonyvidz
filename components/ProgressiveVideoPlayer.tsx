@@ -1,6 +1,6 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { PlayIcon, PauseIcon } from './Icons';
+import { PlayIcon, PauseIcon, ExpandIcon } from './Icons';
 
 interface ProgressiveVideoPlayerProps {
   src: string;
@@ -30,6 +30,7 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
   const [loading, setLoading] = useState(true);
   const [buffered, setBuffered] = useState(0);
   const [quality, setQuality] = useState<'auto' | '720p' | '1080p'>('auto');
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -82,6 +83,15 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
     };
   }, [initialTime, onTimeUpdate, onLoadedMetadata, onEnded]);
 
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   const togglePlay = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -100,6 +110,16 @@ const ProgressiveVideoPlayer: React.FC<ProgressiveVideoPlayerProps> = ({
     const rect = e.currentTarget.getBoundingClientRect();
     const percent = (e.clientX - rect.left) / rect.width;
     video.currentTime = percent * duration;
+  };
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      videoRef.current?.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
   };
 
   const formatTime = (time: number) => {
