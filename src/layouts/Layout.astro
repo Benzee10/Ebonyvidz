@@ -7,11 +7,11 @@ import Footer from "@components/Footer.astro";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import GlobalStyles from "@components/GlobalStyles.astro";
 import VideoWidget from "@components/VideoWidget.svelte";
-import DailyPopup from "@components/DailyPopup.svelte";
-import ExitIntentPopup from "@components/ExitIntentPopup.svelte";
-import StickyCTA from "@components/StickyCTA.astro";
-import ExitIntentModal from "@components/ExitIntentModal.svelte";
-import SmartRecommendationBar from "@components/SmartRecommendationBar.astro";
+// import DailyPopup from '@/components/DailyPopup.svelte';
+// import ExitIntentModal from '@/components/ExitIntentModal.svelte';
+// import ExitIntentPopup from '@/components/ExitIntentPopup.svelte';
+// import StickyCTA from '@/components/StickyCTA.astro';
+// import SmartRecommendationBar from '@/components/SmartRecommendationBar.astro';
 import { profileConfig, siteConfig } from "@/config";
 import {
 	AUTO_MODE,
@@ -175,13 +175,16 @@ const bannerOffset =
 		<VideoWidget client:load />
 
 		<!-- Daily Popup -->
-		<DailyPopup client:load />
+		<!-- <DailyPopup client:load /> -->
 
 		<!-- Exit Intent Popup -->
-		<ExitIntentPopup client:load />
+		<!-- <ExitIntentPopup client:load /> -->
 
 		<!-- Sticky CTA Button -->
-		<StickyCTA />
+		<!-- <StickyCTA /> -->
+
+		<!-- Smart Recommendation Bar -->
+		<!-- <SmartRecommendationBar /> -->
 
 		<!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
 		<div id="page-height-extend" class="hidden h-[300vh]"></div>
