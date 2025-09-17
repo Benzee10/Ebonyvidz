@@ -128,7 +128,7 @@ const createVideoPageHTML = (video: Video): string => {
     <script>
       // Redirect to main app for actual users (not crawlers)
       if (!/bot|crawler|spider|crawling/i.test(navigator.userAgent)) {
-        window.location.replace('${BASE_URL}/#/watch/${video.slug}');
+        window.location.replace('${BASE_URL}/#/video/${video.slug}');
       }
     </script>
     
@@ -176,7 +176,7 @@ const createVideoPageHTML = (video: Video): string => {
       <h1 class="title">${safeTitle}</h1>
       <img class="thumbnail" src="${fullThumbnailUrl}" alt="${safeTitle}" />
       <p class="description">${safeDescription}</p>
-      <a href="${BASE_URL}/#/watch/${video.slug}" class="watch-link">Watch Video</a>
+      <a href="${BASE_URL}/#/video/${video.slug}" class="watch-link">Watch Video</a>
     </div>
   </body>
 </html>`;
