@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && npm run generate-og",
+    "build:app": "vite build",
+    "generate-og": "tsx scripts/generate-og.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,7 +20,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.7.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "tsx": "^4.20.5"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",

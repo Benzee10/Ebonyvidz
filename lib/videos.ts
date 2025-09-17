@@ -73,13 +73,14 @@ async function loadVideosFromFiles(): Promise<Video[]> {
   try {
     // Import all markdown files from all folders (supports unlimited nesting)
     const moduleFiles = import.meta.glob('/lib/data/**/*.md', {
-      as: 'raw',
+      query: '?raw',
+      import: 'default',
       eager: false
     });
 
     for (const [path, moduleLoader] of Object.entries(moduleFiles)) {
       try {
-        const content = await moduleLoader();
+        const content = await (moduleLoader as () => Promise<string>)();
         const video = parseMarkdownToVideo(content);
 
         if (video) {
