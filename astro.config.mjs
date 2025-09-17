@@ -161,7 +161,14 @@ export default defineConfig({
                 server: {
                         host: "0.0.0.0",
                         port: 5000,
-                        allowedHosts: true,
+                        allowedHosts: [
+                                ".replit.dev",
+                                ".repl.co", 
+                                "localhost",
+                                "127.0.0.1",
+                                /.*\.spock\.replit\.dev$/,
+                                /.*\.replit\.dev$/
+                        ],
                         hmr: {
                                 host: "localhost"
                         }
