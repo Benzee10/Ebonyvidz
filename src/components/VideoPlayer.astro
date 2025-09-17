@@ -14,15 +14,32 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
 {videoUrl && (
   <div class:list={["video-player-wrapper", className]}>
     <div class="video-container">
-      <video 
-        controls 
-        poster={thumbnail}
-        preload="metadata"
-        class="video-player"
-      >
-        <source src={videoUrl} type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+      {videoUrl.includes('xvideos.com/embedframe/') ? (
+        <!-- Handle XVideos embed URLs -->
+        <iframe
+          src={videoUrl}
+          frameborder="0"
+          width="100%"
+          height="450"
+          scrolling="no"
+          allowfullscreen
+          class="video-iframe"
+        ></iframe>
+      ) : (
+        <!-- Handle direct video URLs -->
+        <video 
+          controls 
+          poster={thumbnail}
+          preload="metadata"
+          class="video-player"
+          crossorigin="anonymous"
+        >
+          <source src={videoUrl} type="video/mp4">
+          <source src={videoUrl} type="video/webm">
+          <source src={videoUrl} type="video/ogg">
+          Your browser does not support the video tag.
+        </video>
+      )}
       
       {(title || duration) && (
         <div class="video-info-overlay">
@@ -37,8 +54,10 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
 <style>
   .video-player-wrapper {
     margin: 2rem auto;
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
+    position: relative;
+    z-index: 10;
   }
 
   .video-container {
@@ -48,36 +67,51 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     background: #000;
+    aspect-ratio: 16/9;
   }
 
   .video-player {
     width: 100%;
-    height: auto;
-    max-height: 70vh;
+    height: 100%;
     display: block;
+    border-radius: 12px;
+    object-fit: contain;
+    background: #000;
+  }
+
+  .video-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
     border-radius: 12px;
   }
 
   .video-info-overlay {
     position: absolute;
     top: 1rem;
-    left: 1rem;
-    background: rgba(0, 0, 0, 0.7);
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(4px);
     border-radius: 8px;
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;
     color: white;
     font-size: 0.875rem;
     pointer-events: none;
+    z-index: 20;
   }
 
   .video-title {
     font-weight: 600;
     margin-bottom: 0.25rem;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .video-duration {
     opacity: 0.9;
+    font-size: 0.8rem;
   }
 
   /* Hide download button in webkit browsers */
@@ -89,30 +123,65 @@ const { videoUrl, thumbnail, title, duration, class: className } = Astro.props;
     overflow: hidden;
   }
 
+  .video-player::-webkit-media-controls {
+    overflow: hidden;
+  }
+
+  /* Prevent context menu on video */
+  .video-player {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  .video-player::-webkit-media-controls-panel {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+
   /* Responsive design */
   @media (max-width: 768px) {
     .video-player-wrapper {
       margin: 1.5rem auto;
+      max-width: 100%;
+    }
+
+    .video-container {
+      border-radius: 8px;
     }
 
     .video-info-overlay {
       top: 0.75rem;
-      left: 0.75rem;
-      padding: 0.5rem;
+      right: 0.75rem;
+      padding: 0.4rem 0.6rem;
       font-size: 0.8rem;
+    }
+
+    .video-title {
+      max-width: 150px;
     }
   }
 
   @media (max-width: 480px) {
     .video-player-wrapper {
-      margin: 1rem 0;
+      margin: 1rem auto;
+    }
+
+    .video-container {
+      border-radius: 6px;
     }
 
     .video-info-overlay {
-      position: static;
-      background: rgba(0, 0, 0, 0.9);
-      border-radius: 0 0 8px 8px;
-      margin-top: -4px;
+      top: 0.5rem;
+      right: 0.5rem;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.75rem;
+    }
+
+    .video-title {
+      max-width: 120px;
     }
   }
 </style>

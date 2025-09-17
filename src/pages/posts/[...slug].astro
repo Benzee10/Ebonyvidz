@@ -22,6 +22,7 @@ import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 import { findSimilarPosts } from "../../utils/similar-posts";
 import VideoDownloadCTA from "../../components/VideoDownloadCTA.astro";
+import VideoPlayer from "../../components/VideoPlayer.astro";
 
 export async function getStaticPaths() {
         const blogEntries = await getSortedPosts();
@@ -188,6 +189,18 @@ const jsonLd = {
 
             <!-- Top Contextual CTA -->
             <ContextualCTA context="gallery" position="top" />
+
+            <!-- Video Player (if video content) -->
+            {entry.data.videoUrl && (
+                <div class="video-section mb-8 onload-animation">
+                    <VideoPlayer 
+                        videoUrl={entry.data.videoUrl}
+                        thumbnail={entry.data.image}
+                        title={entry.data.title}
+                        duration={entry.data.duration}
+                    />
+                </div>
+            )}
 
             <Markdown class="mb-6 markdown-content onload-animation" id="post-content">
                 <Content />

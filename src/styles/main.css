@@ -76,22 +76,41 @@
 .video-container {
     position: relative;
     z-index: 10;
+    isolation: isolate;
 }
 
-.video-container video {
+.video-container video,
+.video-container iframe {
     position: relative;
     z-index: 10;
     background: #000;
 }
 
 /* Prevent ad overlays on video players */
+.video-player-wrapper {
+    position: relative;
+    z-index: 100;
+    isolation: isolate;
+}
+
 .video-player-wrapper * {
     pointer-events: auto !important;
 }
 
 .video-player-wrapper .banner-ad,
-.video-player-wrapper .cta-overlay {
+.video-player-wrapper .cta-overlay,
+.video-section .banner-ad,
+.video-section .cta-overlay {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Ensure video section has proper stacking */
+.video-section {
+    position: relative;
+    z-index: 100;
+    isolation: isolate;
 }
 
 /* Video thumbnail styling */
