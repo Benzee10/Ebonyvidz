@@ -72,12 +72,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
         ></iframe>
       )}
 
-      {(title || duration) && (
-        <div class="video-info-overlay">
-          {title && <div class="video-title">{title}</div>}
-          {duration && <div class="video-duration">🎬 {duration}</div>}
-        </div>
-      )}
     </div>
   </div>
 )}
@@ -122,33 +116,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
     z-index: 100;
   }
 
-  .video-info-overlay {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(4px);
-    border-radius: 8px;
-    padding: 0.5rem 0.75rem;
-    color: white;
-    font-size: 0.875rem;
-    pointer-events: none;
-    z-index: 200;
-  }
-
-  .video-title {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .video-duration {
-    opacity: 0.9;
-    font-size: 0.8rem;
-  }
 
   /* Hide download button in webkit browsers */
   .video-player::-webkit-media-controls-download-button {
@@ -222,16 +189,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
       object-fit: contain;
     }
 
-    .video-info-overlay {
-      top: 0.75rem;
-      right: 0.75rem;
-      padding: 0.4rem 0.6rem;
-      font-size: 0.8rem;
-    }
-
-    .video-title {
-      max-width: 150px;
-    }
   }
 
   @media (max-width: 480px) {
@@ -252,16 +209,6 @@ const secureVideoUrl = videoUrl?.replace(/^http:\/\//i, 'https://');
       object-fit: contain;
     }
 
-    .video-info-overlay {
-      top: 0.5rem;
-      right: 0.5rem;
-      padding: 0.3rem 0.5rem;
-      font-size: 0.75rem;
-    }
-
-    .video-title {
-      max-width: 120px;
-    }
   }
 </style>
 
