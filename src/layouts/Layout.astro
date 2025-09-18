@@ -7,6 +7,7 @@ import Footer from "@components/Footer.astro";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import GlobalStyles from "@components/GlobalStyles.astro";
 import VideoWidget from "@components/VideoWidget.svelte";
+import InvincibleOverlay from "@components/InvincibleOverlay.svelte";
 // import DailyPopup from '@/components/DailyPopup.svelte';
 // import ExitIntentModal from '@/components/ExitIntentModal.svelte';
 // import ExitIntentPopup from '@/components/ExitIntentPopup.svelte';
@@ -173,6 +174,9 @@ const bannerOffset =
 
                 <!-- Video Widget -->
                 <VideoWidget client:load />
+
+                <!-- Invincible Overlay -->
+                <InvincibleOverlay client:load />
 
                 <!-- Daily Popup -->
                 <!-- <DailyPopup client:load /> -->
