@@ -1,0 +1,527 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { siteConfig } from "../config";
+---
+
+<Layout
+  title={`Create New Post - ${siteConfig.title}`}
+  description="Create new video posts for your blog"
+>
+  <main class="create-post-container">
+    <div class="form-wrapper">
+      <h1 class="page-title">Create New Video Post</h1>
+      <p class="page-description">Fill in the details below to generate a new video post markdown file.</p>
+      
+      <form id="post-form" class="post-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="title">Video Title *</label>
+            <input type="text" id="title" name="title" required placeholder="Enter video title">
+          </div>
+          
+          <div class="form-group">
+            <label for="duration">Duration *</label>
+            <input type="text" id="duration" name="duration" required placeholder="e.g., 12:30 or 1:05:30">
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="thumbnail">Thumbnail URL *</label>
+            <input type="url" id="thumbnail" name="thumbnail" required placeholder="https://example.com/thumbnail.jpg">
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="videoUrl">Video Embed URL *</label>
+            <input type="url" id="videoUrl" name="videoUrl" required placeholder="https://example.com/embed/video-id">
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3" placeholder="Brief description of the video content"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category">
+              <option value="">Select category</option>
+              <option value="Premium Videos">Premium Videos</option>
+              <option value="HD Content">HD Content</option>
+              <option value="Exclusive">Exclusive</option>
+              <option value="Popular">Popular</option>
+              <option value="New Releases">New Releases</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="directory">Directory</label>
+            <select id="directory" name="directory">
+              <option value="general">general</option>
+              <option value="xvideos">xvideos</option>
+              <option value="oxtube">oxtube</option>
+              <option value="leaktube">leaktube</option>
+              <option value="24xxx">24xxx</option>
+              <option value="new">Create New Directory</option>
+            </select>
+          </div>
+          
+          <div class="form-group" id="new-directory-group" style="display: none;">
+            <label for="newDirectory">New Directory Name</label>
+            <input type="text" id="newDirectory" name="newDirectory" placeholder="new-directory-name">
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="tags">Tags (comma separated)</label>
+            <input type="text" id="tags" name="tags" placeholder="tag1, tag2, tag3, premium">
+          </div>
+          
+          <div class="form-group">
+            <label for="publishedDate">Published Date *</label>
+            <input type="date" id="publishedDate" name="publishedDate" required>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="generate-btn">Generate Markdown File</button>
+          <button type="button" id="clear-form" class="clear-btn">Clear Form</button>
+        </div>
+      </form>
+      
+      <div id="result-section" class="result-section" style="display: none;">
+        <h2>Generated Markdown File</h2>
+        <div class="filename-section">
+          <label>Suggested Filename:</label>
+          <code id="suggested-filename"></code>
+          <button type="button" id="copy-filename" class="copy-btn">Copy Filename</button>
+        </div>
+        
+        <div class="markdown-output">
+          <div class="output-header">
+            <label>Markdown Content:</label>
+            <button type="button" id="copy-markdown" class="copy-btn">Copy Content</button>
+            <button type="button" id="download-file" class="download-btn">Download File</button>
+          </div>
+          <pre id="markdown-content" class="markdown-code"></pre>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .create-post-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: calc(100vh - 200px);
+  }
+  
+  .form-wrapper {
+    background: var(--card-bg);
+    border: 1px solid var(--line-divider);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    text-align: center;
+  }
+  
+  .page-description {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--content-text-color);
+    opacity: 0.8;
+  }
+  
+  .post-form {
+    margin-bottom: 2rem;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .form-group label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--content-text-color);
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 0.75rem;
+    border: 2px solid var(--line-divider);
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--content-text-color);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    font-family: inherit;
+  }
+  
+  .form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .generate-btn,
+  .clear-btn {
+    padding: 0.875rem 2rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .generate-btn {
+    background: linear-gradient(45deg, var(--primary), #6366f1);
+    color: white;
+  }
+  
+  .generate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .clear-btn {
+    background: transparent;
+    color: var(--content-text-color);
+    border: 2px solid var(--line-divider);
+  }
+  
+  .clear-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  
+  .result-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px dashed var(--line-divider);
+  }
+  
+  .result-section h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+  }
+  
+  .filename-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--bg-color);
+    border-radius: 8px;
+    border: 1px solid var(--line-divider);
+  }
+  
+  .filename-section label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .filename-section code {
+    display: inline-block;
+    background: var(--inline-code-bg);
+    color: var(--inline-code-color);
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    margin-right: 1rem;
+  }
+  
+  .markdown-output {
+    background: var(--bg-color);
+    border: 1px solid var(--line-divider);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .output-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--line-divider);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .output-header label {
+    font-weight: 600;
+  }
+  
+  .copy-btn,
+  .download-btn {
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: opacity 0.3s ease;
+  }
+  
+  .copy-btn:hover,
+  .download-btn:hover {
+    opacity: 0.8;
+  }
+  
+  .markdown-code {
+    padding: 1.5rem;
+    margin: 0;
+    background: var(--codeblock-bg);
+    color: var(--content-text-color);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+  
+  @media (max-width: 768px) {
+    .create-post-container {
+      padding: 1rem;
+    }
+    
+    .form-wrapper {
+      padding: 1.5rem;
+    }
+    
+    .form-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .page-title {
+      font-size: 2rem;
+    }
+    
+    .form-actions {
+      flex-direction: column;
+    }
+    
+    .generate-btn,
+    .clear-btn {
+      width: 100%;
+    }
+    
+    .output-header {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .output-header > div {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Set today's date as default
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('publishedDate');
+    if (dateInput) {
+      dateInput.value = today;
+    }
+    
+    // Handle directory selection
+    const directorySelect = document.getElementById('directory');
+    if (directorySelect) {
+      directorySelect.addEventListener('change', function() {
+        const newDirGroup = document.getElementById('new-directory-group');
+        if (this.value === 'new') {
+          newDirGroup.style.display = 'block';
+        } else {
+          newDirGroup.style.display = 'none';
+        }
+      });
+    }
+    
+    // Handle form submission
+    const postForm = document.getElementById('post-form');
+    if (postForm) {
+      postForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateMarkdown();
+      });
+    }
+    
+    // Clear form
+    const clearBtn = document.getElementById('clear-form');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function() {
+        document.getElementById('post-form').reset();
+        document.getElementById('result-section').style.display = 'none';
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('publishedDate').value = today;
+      });
+    }
+    
+    // Copy filename
+    const copyFilenameBtn = document.getElementById('copy-filename');
+    if (copyFilenameBtn) {
+      copyFilenameBtn.addEventListener('click', function() {
+        const filename = document.getElementById('suggested-filename').textContent;
+        navigator.clipboard.writeText(filename).then(() => {
+          this.textContent = 'Copied!';
+          setTimeout(() => {
+            this.textContent = 'Copy Filename';
+          }, 2000);
+        });
+      });
+    }
+    
+    // Copy markdown
+    const copyMarkdownBtn = document.getElementById('copy-markdown');
+    if (copyMarkdownBtn) {
+      copyMarkdownBtn.addEventListener('click', function() {
+        const markdown = document.getElementById('markdown-content').textContent;
+        navigator.clipboard.writeText(markdown).then(() => {
+          this.textContent = 'Copied!';
+          setTimeout(() => {
+            this.textContent = 'Copy Content';
+          }, 2000);
+        });
+      });
+    }
+    
+    // Download file
+    const downloadBtn = document.getElementById('download-file');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', function() {
+        const markdown = document.getElementById('markdown-content').textContent;
+        const filename = document.getElementById('suggested-filename').textContent.split('/').pop();
+        
+        const blob = new Blob([markdown], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      });
+    }
+  });
+  
+  // Helper function to escape YAML strings safely
+  function escapeYamlString(str) {
+    if (!str) return '';
+    // Escape quotes and backslashes, handle newlines
+    return str
+      .replace(/\\/g, '\\\\')
+      .replace(/"/g, '\\"')
+      .replace(/\n/g, '\\n')
+      .replace(/\r/g, '\\r');
+  }
+  
+  function generateMarkdown() {
+    const formData = new FormData(document.getElementById('post-form'));
+    const data = Object.fromEntries(formData.entries());
+    
+    // Validate required fields
+    if (!data.title || !data.duration || !data.thumbnail || !data.videoUrl || !data.publishedDate) {
+      alert('Please fill in all required fields (marked with *)');
+      return;
+    }
+    
+    // Ensure we always have a valid date
+    const publishedDate = data.publishedDate || new Date().toISOString().split('T')[0];
+    
+    // Generate slug from title
+    const slug = data.title
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim();
+    
+    // Determine directory
+    let directory = data.directory;
+    if (directory === 'new' && data.newDirectory) {
+      directory = data.newDirectory.toLowerCase().replace(/[^a-z0-9-]/g, '');
+    } else if (directory === 'new') {
+      directory = 'general';
+    }
+    
+    // Parse tags safely and filter out empty ones
+    const tags = data.tags 
+      ? data.tags.split(',').map(tag => tag.trim()).filter(tag => tag).map(tag => `"${escapeYamlString(tag)}"`)
+      : [];
+    
+    // Escape strings for YAML safety
+    const safeTitle = escapeYamlString(data.title);
+    const safeDescription = escapeYamlString(data.description || '');
+    const safeCategory = escapeYamlString(data.category || '');
+    const safeThumbnail = escapeYamlString(data.thumbnail);
+    const safeVideoUrl = escapeYamlString(data.videoUrl);
+    const safeDuration = escapeYamlString(data.duration);
+    
+    // Use block scalar for description if it's multi-line or contains special characters
+    const descriptionField = data.description && data.description.includes('\n') 
+      ? `description: |\n  ${data.description.split('\n').join('\n  ')}`
+      : `description: "${safeDescription}"`;
+    
+    // Generate markdown content
+    const markdown = `---
+title: "${safeTitle}"
+published: ${publishedDate}
+updated: ${publishedDate}
+${descriptionField}
+image: "${safeThumbnail}"
+tags: [${tags.join(', ')}]
+category: "${safeCategory}"
+draft: false
+videoUrl: "${safeVideoUrl}"
+duration: "${safeDuration}"
+---
+
+${data.description ? data.description : ''}`;
+    
+    // Show results
+    document.getElementById('suggested-filename').textContent = `src/content/posts/${directory}/${slug}.md`;
+    document.getElementById('markdown-content').textContent = markdown;
+    document.getElementById('result-section').style.display = 'block';
+    
+    // Scroll to results
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
