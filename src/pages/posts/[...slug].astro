@@ -13,10 +13,10 @@ import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import RelatedGallery from "../../components/RelatedGallery.astro";
 import SimilarPosts from "../../components/SimilarPosts.astro";
-import InContentCTA from '../../components/InContentCTA.astro';
+// import InContentCTA from '../../components/InContentCTA.astro';
 import ScrollProgressCTA from '../../components/ScrollProgressCTA.svelte';
 import ImageOverlayCTA from '../../components/ImageOverlayCTA.astro';
-import ContextualCTA from '../../components/ContextualCTA.astro';
+// import ContextualCTA from '../../components/ContextualCTA.astro';
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 import { findSimilarPosts } from "../../utils/similar-posts";
@@ -185,7 +185,7 @@ const jsonLd = {
 
 
             <!-- Top Contextual CTA -->
-            <ContextualCTA context="gallery" position="top" />
+            <!-- <ContextualCTA context="gallery" position="top" /> -->
 
             <!-- Video Player (if video content) -->
             {entry.data.videoUrl && (
@@ -204,11 +204,11 @@ const jsonLd = {
             </Markdown>
 
             <!-- Middle Contextual CTA -->
-            <ContextualCTA context="premium" position="middle" />
+            <!-- <ContextualCTA context="premium" position="middle" /> -->
 
 
             <!-- Bottom Contextual CTA -->
-            <ContextualCTA context="bio" position="bottom" />
+            <!-- <ContextualCTA context="bio" position="bottom" /> -->
 
             {licenseConfig.enable && <License title={entry.data.title} slug={entry.slug} pubDate={entry.data.published} class="mb-6 rounded-xl license-container onload-animation"></License>}
 
@@ -216,7 +216,7 @@ const jsonLd = {
     </div>
 
     <!-- New CTA Components -->
-    <InContentCTA type="premium" position="block" />
+    <!-- <InContentCTA type="premium" position="block" /> -->
 
     <!-- Download Button -->
     <VideoDownloadCTA />
