@@ -20,6 +20,7 @@ import ImageOverlayCTA from '../../components/ImageOverlayCTA.astro';
 import { profileConfig, siteConfig } from "../../config";
 import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 import { findSimilarPosts } from "../../utils/similar-posts";
+import VideoDownloadCTA from "../../components/VideoDownloadCTA.astro";
 import VideoPlayer from "../../components/VideoPlayer.astro";
 
 export async function getStaticPaths() {
@@ -217,6 +218,8 @@ const jsonLd = {
     <!-- New CTA Components -->
     <!-- <InContentCTA type="premium" position="block" /> -->
 
+    <!-- Download Button -->
+    <VideoDownloadCTA />
 
     <!-- Related Gallery/Video Section -->
     {entry.data.videoUrl ? (
