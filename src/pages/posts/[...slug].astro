@@ -9,7 +9,6 @@ import { getSortedPosts } from "@utils/content-utils";
 import { getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { licenseConfig } from "src/config";
-import ImageWrapper from "../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../components/PostMeta.astro";
 import RelatedGallery from "../../components/RelatedGallery.astro";
 import SimilarPosts from "../../components/SimilarPosts.astro";
@@ -88,7 +87,7 @@ const jsonLd = {
         image: ogImageUrl,
 };
 ---
-<MainGridLayout banner={entry.data.image} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
+<MainGridLayout banner={null} title={entry.data.title} description={entry.data.description} lang={entry.data.lang} setOGTypeArticle={true} headings={headings}>
     <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
 
     <!-- Open Graph Meta Tags -->
@@ -172,16 +171,10 @@ const jsonLd = {
                         tags={entry.data.tags}
                         category={entry.data.category}
                 ></PostMetadata>
-                {!entry.data.image && <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>}
+                <div class="border-[var(--line-divider)] border-dashed border-b-[1px] mb-5"></div>
             </div>
 
-            <!-- always show cover as long as it has one -->
-
-            {entry.data.image &&
-                <div class="mb-8 rounded-xl banner-container onload-animation">
-                    <ImageWrapper id="post-cover" src={entry.data.image} basePath={path.join("content/posts/", getDir(entry.id))} class="rounded-xl"/>
-                </div>
-            }
+            <!-- featured image removed as requested -->
 
 
             <!-- Top Contextual CTA -->
