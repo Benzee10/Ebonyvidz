@@ -2,63 +2,87 @@
 ---
 interface Props {
   url?: string;
-  text?: string;
   class?: string;
 }
 
 const { 
   url = "https://whatsappad.vercel.app/", 
-  text = "⬇️ Download Full Video", 
   class: className = "" 
 } = Astro.props;
+
+const downloadButtons = [
+  {
+    text: "⬇️ Download Full Video",
+    subText: "HD Quality • Fast Download",
+    gradient: "linear-gradient(45deg, #ff6b6b, #ee5a24)"
+  },
+  {
+    text: "📱 Mobile Download",
+    subText: "Optimized for Mobile",
+    gradient: "linear-gradient(45deg, #74b9ff, #0984e3)"
+  },
+  {
+    text: "💎 Premium Download",
+    subText: "Ultra HD • No Ads",
+    gradient: "linear-gradient(45deg, #a29bfe, #6c5ce7)"
+  }
+];
 ---
 
 <div class:list={["video-download-cta", className]}>
-  <a 
-    href={url} 
-    target="_blank" 
-    rel="noopener noreferrer"
-    class="download-button"
-  >
-    <div class="download-icon">
-      <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-      </svg>
-    </div>
-    <div class="download-text">
-      <span class="main-text">{text}</span>
-      <span class="sub-text">HD Quality • Fast Download</span>
-    </div>
-  </a>
+  {downloadButtons.map((button, index) => (
+    <a 
+      href={url} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="download-button"
+      style={`background: ${button.gradient}; animation-delay: ${index * 0.1}s;`}
+    >
+      <div class="download-icon">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+        </svg>
+      </div>
+      <div class="download-text">
+        <span class="main-text">{button.text}</span>
+        <span class="sub-text">{button.subText}</span>
+      </div>
+    </a>
+  ))}
 </div>
 
 <style>
   .video-download-cta {
     margin: 2rem 0;
-    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 2rem auto;
     animation: slideInUp 0.6s ease-out;
   }
 
   .download-button {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 1rem;
-    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
     color: white;
     text-decoration: none;
     padding: 1.2rem 2rem;
     border-radius: 50px;
     font-weight: bold;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     border: 2px solid rgba(255, 255, 255, 0.2);
-    min-width: 280px;
+    width: 100%;
+    justify-content: flex-start;
+    animation: slideInUp 0.6s ease-out;
   }
 
   .download-button:hover {
     transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 12px 35px rgba(255, 107, 107, 0.5);
-    background: linear-gradient(45deg, #ff5252, #d84315);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    filter: brightness(1.1);
   }
 
   .download-icon {
@@ -106,10 +130,20 @@ const {
     }
   }
 
-  @media (max-width: 768px) {
+  @media (min-width: 768px) {
+    .video-download-cta {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .video-download-cta {
+      padding: 0 1rem;
+    }
+    
     .download-button {
       padding: 1rem 1.5rem;
-      min-width: 250px;
       gap: 0.75rem;
     }
 
@@ -133,8 +167,11 @@ const {
   }
 
   @media (max-width: 480px) {
+    .video-download-cta {
+      padding: 0 0.5rem;
+    }
+
     .download-button {
-      width: 100%;
       padding: 1rem 1.25rem;
       justify-content: center;
       text-align: center;
