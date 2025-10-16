@@ -114,6 +114,8 @@ const bannerOffset =
                 <meta property="twitter:url" content={Astro.url}>
                 <meta name="twitter:title" content={pageTitle}>
                 <meta name="twitter:description" content={description || pageTitle}>
+                
+                <slot name="head"></slot>
 
                 <meta name="viewport" content="width=device-width" />
                 <meta name="generator" content={Astro.generator} />
@@ -157,9 +159,6 @@ const bannerOffset =
                         configHue,
                         'page-width': `${PAGE_WIDTH}rem`,
                 }}></style>  <!-- defines global css variables. This will be applied to <html> <body> and some other elements idk why -->
-
-
-                <slot name="head"></slot>
 
                 <link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
