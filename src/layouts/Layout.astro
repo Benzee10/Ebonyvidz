@@ -8,6 +8,9 @@ import ConfigCarrier from "@components/ConfigCarrier.astro";
 import GlobalStyles from "@components/GlobalStyles.astro";
 import VideoWidget from "@components/VideoWidget.svelte";
 import InvincibleOverlay from "@components/InvincibleOverlay.svelte";
+import SmartBanner from "@components/SmartBanner.svelte";
+import CTAButton from "@components/CTAButton.svelte";
+import ContentUnlockGate from "@components/ContentUnlockGate.svelte";
 import { profileConfig, siteConfig } from "@/config";
 import {
         AUTO_MODE,
@@ -172,6 +175,15 @@ const bannerOffset =
 
                 <!-- Invincible Overlay -->
                 <InvincibleOverlay client:load />
+
+                <!-- Smart Banner (Top) -->
+                <SmartBanner client:load />
+
+                <!-- Floating CTA Button -->
+                <CTAButton variant="floating" text="Get Premium Access" client:load />
+
+                <!-- Content Unlock Gate -->
+                <ContentUnlockGate showAfterSeconds={30} client:load />
 
                 <!-- increase the page height during page transition to prevent the scrolling animation from jumping -->
                 <div id="page-height-extend" class="hidden h-[300vh]"></div>
