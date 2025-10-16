@@ -68,9 +68,11 @@ const { remarkPluginFrontmatter } = await entry.render();
                 )}
 
                 <div class="p-2 sm:p-3">
-                        <h3 class="text-white text-xs sm:text-sm font-medium line-clamp-2 group-hover:text-purple-400 transition-colors mb-1 sm:mb-2">
-                                {title}
-                        </h3>
+                        <a href={url} class="relative z-10 block" onclick="event.stopPropagation();">
+                                <h3 class="text-white text-xs sm:text-sm font-medium line-clamp-2 hover:text-purple-400 transition-colors mb-1 sm:mb-2">
+                                        {title}
+                                </h3>
+                        </a>
 
                         <div class="flex flex-wrap gap-1">
                                 {tags.slice(0, 2).map(tag => (
