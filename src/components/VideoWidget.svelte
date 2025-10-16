@@ -28,6 +28,12 @@
   
   const closeWidget = () => {
     isVisible = false;
+    // Save timestamp when closed
+    localStorage.setItem('videoWidgetLastShown', Date.now().toString());
+  };
+  
+  const handleWidgetClick = (e: MouseEvent) => {
+    window.open(redirectUrl, '_blank');
   };
   
   const handleOverlayClick = (e: MouseEvent) => {
@@ -35,7 +41,22 @@
     window.open(redirectUrl, '_blank');
   };
   
+  const shouldShowWidget = () => {
+    const lastShown = localStorage.getItem('videoWidgetLastShown');
+    if (!lastShown) return true;
+    
+    const oneDayInMs = 24 * 60 * 60 * 1000; // 24 hours
+    const timeSinceLastShown = Date.now() - parseInt(lastShown);
+    
+    return timeSinceLastShown >= oneDayInMs;
+  };
+  
   onMount(() => {
+    // Check if widget should be shown (once per day)
+    if (!shouldShowWidget()) {
+      return;
+    }
+    
     // Load random video
     currentVideoUrl = getRandomVideo();
     
@@ -54,11 +75,11 @@
 </script>
 
 {#if isVisible}
-  <div class="video-widget" class:minimized={isMinimized}>
+  <div class="video-widget" class:minimized={isMinimized} on:click={handleWidgetClick}>
     <div class="video-header">
       <span class="video-title">Featured Video</span>
       <div class="video-controls">
-        <button on:click={toggleMinimize} class="control-btn" aria-label="Toggle minimize">
+        <button on:click|stopPropagation={toggleMinimize} class="control-btn" aria-label="Toggle minimize">
           {#if isMinimized}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -69,7 +90,7 @@
             </svg>
           {/if}
         </button>
-        <button on:click={closeWidget} class="control-btn" aria-label="Close">
+        <button on:click|stopPropagation={closeWidget} class="control-btn" aria-label="Close">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
           </svg>
@@ -78,7 +99,7 @@
     </div>
     
     {#if !isMinimized}
-      <div class="video-container">
+      <div class="video-container" on:click={handleWidgetClick}>
         <div class="video-wrapper">
           <video
             bind:this={videoElement}
@@ -92,7 +113,7 @@
           </video>
           <div class="video-overlay">
             <button class="overlay-button" on:click={handleOverlayClick}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z"/>
               </svg>
               <span>Watch Full Video</span>
@@ -109,19 +130,20 @@
     position: fixed;
     bottom: 24px;
     right: 24px;
-    width: 340px;
+    width: 260px;
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.95));
-    border-radius: 16px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
     z-index: 1000;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
     border: 1px solid rgba(148, 163, 184, 0.1);
+    cursor: pointer;
   }
   
   .video-widget.minimized {
-    height: 56px;
+    height: 48px;
     background: linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(30, 41, 59, 0.98));
   }
   
@@ -129,7 +151,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
+    padding: 12px 16px;
     background: linear-gradient(90deg, rgba(59, 130, 246, 0.08), rgba(147, 51, 234, 0.08));
     border-bottom: 1px solid rgba(148, 163, 184, 0.08);
     backdrop-filter: blur(10px);
@@ -137,7 +159,7 @@
   
   .video-title {
     color: #f1f5f9;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: -0.025em;
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
@@ -156,14 +178,14 @@
     border: 1px solid rgba(148, 163, 184, 0.15);
     color: #cbd5e1;
     cursor: pointer;
-    padding: 8px;
-    border-radius: 8px;
+    padding: 6px;
+    border-radius: 6px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
   
   .control-btn:hover {
@@ -221,14 +243,14 @@
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     border: none;
     color: white;
-    padding: 14px 24px;
-    border-radius: 30px;
-    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
     letter-spacing: -0.025em;
@@ -246,27 +268,26 @@
   
   @media (max-width: 768px) {
     .video-widget {
-      width: 300px;
+      width: 240px;
       bottom: 20px;
       right: 20px;
     }
     
     .video-header {
-      padding: 14px 18px;
+      padding: 10px 14px;
     }
   }
   
   @media (max-width: 480px) {
     .video-widget {
-      width: calc(100vw - 32px);
+      width: 220px;
       right: 16px;
-      left: 16px;
       bottom: 16px;
     }
     
     .overlay-button {
-      padding: 12px 20px;
-      font-size: 13px;
+      padding: 8px 16px;
+      font-size: 11px;
     }
   }
 </style>
