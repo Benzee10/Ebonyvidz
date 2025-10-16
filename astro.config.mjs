@@ -172,7 +172,9 @@ export default defineConfig({
                                 "127.0.0.1"
                         ],
                         hmr: {
-                                host: "0.0.0.0"
+                                clientPort: 443,
+                                protocol: "wss",
+                                host: process.env.REPLIT_DOMAINS?.split(',')[0] || "localhost"
                         }
                 },
                 build: {
