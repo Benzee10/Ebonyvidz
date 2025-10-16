@@ -13,7 +13,7 @@
     "https://images-assets.project1content.com/assets/brand/1241/tgp/3421/cell/page_1/adId_0/680b9991c5d4f2.73297277.mp4"
   ];
   
-  const redirectUrl = "https://whatsappad.vercel.app/";
+  const redirectUrl = "https://whatsappad.vercel.app";
   
   let currentVideoUrl = "";
   
@@ -30,7 +30,8 @@
     isVisible = false;
   };
   
-  const handleVideoClick = () => {
+  const handleOverlayClick = (e: MouseEvent) => {
+    e.stopPropagation();
     window.open(redirectUrl, '_blank');
   };
   
@@ -78,7 +79,7 @@
     
     {#if !isMinimized}
       <div class="video-container">
-        <div class="video-wrapper" on:click={handleVideoClick} role="button" tabindex="0" on:keydown={(e) => e.key === 'Enter' && handleVideoClick()}>
+        <div class="video-wrapper">
           <video
             bind:this={videoElement}
             controls
@@ -86,12 +87,11 @@
             loop
             class="video-player"
             src={currentVideoUrl}
-            on:click={handleVideoClick}
           >
             Your browser does not support the video tag.
           </video>
           <div class="video-overlay">
-            <button class="overlay-button" on:click={handleVideoClick}>
+            <button class="overlay-button" on:click={handleOverlayClick}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z"/>
               </svg>
@@ -183,7 +183,6 @@
   
   .video-wrapper {
     position: relative;
-    cursor: pointer;
     overflow: hidden;
   }
   
@@ -194,12 +193,7 @@
     object-fit: contain;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
-    transition: transform 0.3s ease;
     background: #000;
-  }
-  
-  .video-wrapper:hover .video-player {
-    transform: scale(1.02);
   }
   
   .video-overlay {
