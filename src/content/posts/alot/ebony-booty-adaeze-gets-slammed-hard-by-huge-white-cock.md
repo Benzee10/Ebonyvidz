@@ -7,7 +7,7 @@ image: "https://bcdn.alotporn.com/contents/videos_screenshots/593000/593863/360x
 tags: ["Blowjob", "teens"]
 category: "HD Content"
 draft: false
-videoUrl: "https://cdne-mobile.youjizz.com/videos/1/a/6/f/2/1a6f286bd560e003f97d42252709fdb71752534490-640-360-473-h264.mp4?validfrom=1760830293&validto=1761003093&rate=90816&hash=Wi4GmuW8k48%2FTAbsPfsf8BO0kHU%3D&d=1"
+videoUrl: "https://cdnl.empflix.com/219/34/65/3465236/black-teen-adaeza-will-fuck-me-for-the-job-so-she-got-fucked-after-casting-1080p.mp4?rs=522k&rb=4639k&secure=msTTKZPPHcE7kH-04AFfqg==,1760928022"
 duration: "10:01"
 ---
 
