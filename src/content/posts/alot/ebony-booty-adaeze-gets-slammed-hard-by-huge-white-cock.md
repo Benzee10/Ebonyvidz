@@ -7,7 +7,7 @@ image: "https://bcdn.alotporn.com/contents/videos_screenshots/593000/593863/360x
 tags: ["Blowjob", "teens"]
 category: "HD Content"
 draft: false
-videoUrl: "https://ax1.porn-cdn.com/xxx/?getVideo=true&type=high&clientip=141.0.12.97&player=1&vhash=RUlwcU1Rd1N1NXlHUEhVNmxJY3RFZz09&ttl=RmNTMDdnRWp1Njh5b3pTMEFpZENSdz09"
+videoUrl: "https://s.fapcat.com/embed/2474602"
 duration: "10:01"
 ---
 
