@@ -8,6 +8,6 @@ image: "https://img.wow.xxx/93781000/93781696/medium@2x/1.jpg"
 tags: ["Big Tits", "Blowjob", "Lingerie", "Handjob", "Doggystyle", "Missionary", "Brunette", "Big Ass", "Riding", "Cum in Mouth", "Shower", "Interracial", "Pussy Licking", "Hairy Pussy", "Deepthroat", "Reverse Cowgirl", "Kissing", "Spooning", "BBC", "premium"]
 category: "Premium Videos"
 draft: false
-videoUrl: "https://m.24xxxx.win/common/loadvideo/39256.mp4?q=360&v=75653&sg=2&vurl=39256&trailer=38583194"
+videoUrl: "https://d02.cdn3x.com/xd/hN6QppdqyiDQveNb8Uc04Q/1ZDGPywcnkh0vWXB"
 duration: "33:10"
 ---
