@@ -7,7 +7,7 @@ image: "https://www.mzansixxx.com/media/videos/tmb/329/13.jpg"
 tags: ["Homemade"]
 category: "New Releases"
 draft: false
-videoUrl: "https://www.mzansixxx.com/download.php?id=329&label=480p"
+videoUrl: "https://www.mzansixxx.com/media/videos/h264/329_480p.mp4"
 duration: "01:04"
 ---
 
