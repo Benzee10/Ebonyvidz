@@ -6,7 +6,6 @@ import "@fontsource/roboto/700.css";
 import Footer from "@components/Footer.astro";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import GlobalStyles from "@components/GlobalStyles.astro";
-import VideoWidget from "@components/VideoWidget.svelte";
 import TelegramButton from "@components/TelegramButton.svelte";
 import InvincibleOverlay from "@components/InvincibleOverlay.svelte";
 import SmartBanner from "@components/SmartBanner.svelte";
@@ -169,9 +168,6 @@ const bannerOffset =
         >
                 <ConfigCarrier></ConfigCarrier>
                 <slot />
-
-                <!-- Video Widget -->
-                <VideoWidget client:load />
 
                 <!-- Telegram Button -->
                 <TelegramButton client:load />

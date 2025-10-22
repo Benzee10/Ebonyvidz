@@ -55,6 +55,8 @@
     color: white;
     box-shadow: 0 8px 25px rgba(245, 87, 108, 0.5);
     animation: float 3s ease-in-out infinite;
+    padding: 10px 18px;
+    font-size: 13px;
   }
   
   .cta-button:hover {
@@ -70,6 +72,10 @@
     font-size: 20px;
   }
   
+  .cta-button.floating .cta-icon {
+    font-size: 16px;
+  }
+  
   .cta-text {
     flex: 1;
   }
@@ -77,6 +83,10 @@
   .cta-arrow {
     font-size: 18px;
     transition: transform 0.3s ease;
+  }
+  
+  .cta-button.floating .cta-arrow {
+    font-size: 14px;
   }
   
   .cta-button:hover .cta-arrow {
@@ -97,8 +107,16 @@
     .cta-button.floating {
       bottom: 10px;
       right: 10px;
-      padding: 12px 20px;
-      font-size: 13px;
+      padding: 8px 14px;
+      font-size: 11px;
+    }
+    
+    .cta-button.floating .cta-icon {
+      font-size: 14px;
+    }
+    
+    .cta-button.floating .cta-arrow {
+      font-size: 12px;
     }
   }
 </style>
