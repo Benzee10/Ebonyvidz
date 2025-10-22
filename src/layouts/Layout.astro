@@ -7,6 +7,7 @@ import Footer from "@components/Footer.astro";
 import ConfigCarrier from "@components/ConfigCarrier.astro";
 import GlobalStyles from "@components/GlobalStyles.astro";
 import VideoWidget from "@components/VideoWidget.svelte";
+import TelegramButton from "@components/TelegramButton.svelte";
 import InvincibleOverlay from "@components/InvincibleOverlay.svelte";
 import SmartBanner from "@components/SmartBanner.svelte";
 import CTAButton from "@components/CTAButton.svelte";
@@ -171,6 +172,9 @@ const bannerOffset =
 
                 <!-- Video Widget -->
                 <VideoWidget client:load />
+
+                <!-- Telegram Button -->
+                <TelegramButton client:load />
 
                 <!-- Invincible Overlay -->
                 <InvincibleOverlay client:load />
