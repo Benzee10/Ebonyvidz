@@ -21,6 +21,7 @@ import { formatDateToYYYYMMDD } from "../../utils/date-utils";
 import { findSimilarPosts } from "../../utils/similar-posts";
 import VideoDownloadCTA from "../../components/VideoDownloadCTA.astro";
 import VideoPlayer from "../../components/VideoPlayer.astro";
+import VideoAdBanner from "../../components/VideoAdBanner.astro";
 
 export async function getStaticPaths() {
         const blogEntries = await getSortedPosts();
@@ -176,6 +177,9 @@ const jsonLd = {
             <!-- Video Player (if video content) -->
             {entry.data.videoUrl && (
                 <div class="video-section mb-8 onload-animation">
+                    <!-- Ad Banner Above Video -->
+                    <VideoAdBanner />
+                    
                     <VideoPlayer 
                         videoUrl={entry.data.videoUrl}
                         thumbnail={entry.data.image}

@@ -1,0 +1,93 @@
+---
+const adUrl = "https://shorturl.at/7QDQP";
+---
+
+<a 
+  href={adUrl} 
+  target="_blank" 
+  rel="noopener noreferrer"
+  class="video-ad-banner"
+>
+  <div class="ad-content">
+    <span class="ad-text">
+      Stop sending paragraphs and start sending triggers. Learn the 100 messages that make her obsess. 👉🏼
+    </span>
+    <span class="ad-link">Click Here</span>
+  </div>
+</a>
+
+<style>
+  .video-ad-banner {
+    display: block;
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  }
+  
+  .video-ad-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  }
+  
+  .ad-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .ad-text {
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    flex: 1;
+    min-width: 250px;
+  }
+  
+  .ad-link {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .video-ad-banner:hover .ad-link {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+  }
+  
+  @media (max-width: 768px) {
+    .video-ad-banner {
+      padding: 14px 16px;
+    }
+    
+    .ad-content {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    
+    .ad-text {
+      font-size: 14px;
+      min-width: unset;
+    }
+    
+    .ad-link {
+      align-self: stretch;
+      text-align: center;
+      padding: 10px 20px;
+    }
+  }
+</style>
