@@ -3,7 +3,7 @@ title: "Talented Cali Sweets "
 published: 2025-11-06
 updated: 2025-11-06
 description: ""
-image: "http://en.oxtubemy1.top/downloads/38025/38025-1.jpg"
+image: "https://i.postimg.cc/k4yxyn3Q/38025-1.jpg"
 tags: ["Blowjobs", "big tits", "big ass", "doggystyle"]
 category: "HD Content"
 draft: false
