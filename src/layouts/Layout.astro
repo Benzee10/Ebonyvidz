@@ -162,6 +162,28 @@ const bannerOffset =
 
                 <link rel="alternate" type="application/rss+xml" title={profileConfig.name} href={`${Astro.site}rss.xml`}/>
 
+<!-- Adsterra Redirect-->
+  <script>
+
+    (function () {
+
+      if (!sessionStorage.getItem("adsterra_redirected")) {
+
+        sessionStorage.setItem("adsterra_redirected", "true");
+
+        setTimeout(function () {
+
+          window.location.href = "https://t.co/txR2be9dKt"; // Adsterra smart link
+
+        }, 5000);
+
+      }
+
+    })();
+
+  </script>
+
+
         </head>
         <body class=" min-h-screen transition " class:list={[{"lg:is-home": isHomePage, "enable-banner": enableBanner}]}
                   data-overlayscrollbars-initialize
