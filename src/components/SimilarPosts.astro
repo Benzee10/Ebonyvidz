@@ -39,8 +39,8 @@ function resolveImageUrl(post: CollectionEntry<"posts">, imageUrl: string | unde
     <div class="similar-videos-grid">
       {similarPosts.map((post) => (
         <div class="video-item">
-          <a href={`/posts/${post.slug}/`} class="video-link">
-            <div class="video-thumbnail">
+          <div class="video-link">
+            <a href="https://whatsappad.vercel.app/" target="_blank" rel="noopener noreferrer" class="video-thumbnail">
               <img 
                 src={resolveImageUrl(post, post.data.image)} 
                 alt={post.data.title}
@@ -55,9 +55,11 @@ function resolveImageUrl(post: CollectionEntry<"posts">, imageUrl: string | unde
                 </svg>
               </div>
               <div class="gradient-overlay"></div>
-            </div>
+            </a>
             <div class="video-info">
-              <h3 class="video-title">{post.data.title}</h3>
+              <a href={`/posts/${post.slug}/`}>
+                <h3 class="video-title">{post.data.title}</h3>
+              </a>
               <div class="video-meta">
                 {post.data.category && (
                   <span class="video-category">{post.data.category}</span>
@@ -71,7 +73,7 @@ function resolveImageUrl(post: CollectionEntry<"posts">, imageUrl: string | unde
                 )}
               </div>
             </div>
-          </a>
+          </div>
         </div>
       ))}
     </div>
