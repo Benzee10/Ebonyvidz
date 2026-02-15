@@ -8,6 +8,6 @@ tags: ["Ebony"]
 category: "Exclusive"
 draft: false
 videoUrl: "https://xxxwis.com/wp-content/uploads/2026/01/Xvideos_friends_having_riding_cock_-_penismanxxx_production_360p.mp4"
-duration: "05:33"
+duration: "05:03"
 ---
 
